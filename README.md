@@ -35,13 +35,18 @@ Or run locally:
 ```bash
 # Clone the repository
 git clone https://github.com/sanrakudo/icalkit.git
-cd icalkit
+cd icalkit/web
 
-# Open in browser
-open web/index.html
-# or
-python -m http.server 8000
-# Then visit http://localhost:8000/web
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+# Then visit http://localhost:5173
+
+# Or build for production
+npm run build
+npm run preview
 ```
 
 ### CLI Tools *(Coming Soon)*
@@ -74,8 +79,8 @@ Browse and search through your iCal files with ease.
 
 ## 🛠️ Technology Stack
 
-- **Web**: Pure HTML/CSS/JavaScript with React (CDN), ical.js, JSZip
-- **CLI**: Node.js
+- **Web**: React 19 + TypeScript, Vite, React Router, Tailwind CSS 4, ical.js, JSZip
+- **CLI**: Node.js *(Coming Soon)*
 - **No backend required** - All processing happens client-side/locally
 
 ## 🤝 Contributing
