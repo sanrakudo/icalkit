@@ -16,6 +16,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "generate-images": "pnpm --filter icalkit-web generate-images",
+    "license": "license-manager analyze -c license-manager.config.cjs",
+    "license:extract": "license-manager extract -c license-manager.config.cjs",
     "lint": "eslint . && pnpm -r lint",
     "test": "pnpm -r test:run",
     "test:coverage": "pnpm -r test:coverage",
@@ -28,6 +30,7 @@
   },
   "devDependencies": {
     "@cybozu/eslint-config": "^25.0.0",
+    "@cybozu/license-manager": "^1.4.1",
     "eslint": "^9.39.2",
     "eslint-plugin-package-json": "^0.87.1",
     "prettier": "^3.7.4"

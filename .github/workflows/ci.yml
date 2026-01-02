@@ -27,6 +27,9 @@ jobs:
       - name: Check formatting and linting
         run: pnpm check
 
+      - name: Check licenses
+        run: pnpm license
+
       - name: Run tests
         run: pnpm test
 
