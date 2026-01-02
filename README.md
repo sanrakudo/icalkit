@@ -111,13 +111,60 @@ pnpm generate-images  # Generate PNG images from logos
 
 ### Requirements
 
-- Node.js >= 18.0.0
+- Node.js >= 24.0.0
 - pnpm >= 9.0.0
 
-Install pnpm:
+**Using mise (recommended):**
+
+This project uses [mise](https://mise.jdx.dev/) for managing tool versions.
+
 ```bash
+# Install mise
+curl https://mise.run | sh
+
+# Install tools (Node.js and pnpm)
+mise install
+
+# Tools will be automatically activated when you cd into the project
+```
+
+**Manual installation:**
+```bash
+# Install Node.js 24
+# https://nodejs.org/
+
+# Install pnpm
 npm install -g pnpm
 ```
+
+## 🚀 Deployment
+
+### Cloudflare Pages
+
+The web application is deployed to Cloudflare Pages.
+
+**Setup via Cloudflare Dashboard:**
+
+1. Go to Cloudflare Pages dashboard
+2. Click "Create a project" → "Connect to Git"
+3. Select your repository
+4. Configure build settings:
+   - **Framework preset**: None
+   - **Build command**: `pnpm build:web`
+   - **Build output directory**: `web/dist`
+   - **Root directory**: (leave empty)
+5. Environment variables:
+   - `NODE_VERSION`: `24`
+6. Save and deploy
+
+Cloudflare Pages will automatically deploy on every push to the main branch.
+
+**Custom Domain:**
+
+To use a custom domain like `icalkit.app`:
+1. Go to your Cloudflare Pages project → Custom domains
+2. Add your domain
+3. Cloudflare will automatically configure DNS if the domain is on Cloudflare
 
 ## 🤝 Contributing
 

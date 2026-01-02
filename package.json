@@ -12,8 +12,7 @@
     "generate-images": "pnpm --filter icalkit-web generate-images"
   },
   "engines": {
-    "node": ">=18.0.0",
+    "node": ">=24.0.0",
     "pnpm": ">=9.0.0"
-  },
-  "packageManager": "pnpm@10.20.0"
+  }
 }
