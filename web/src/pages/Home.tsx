@@ -221,12 +221,10 @@ icalkit merge file1.ics file2.ics -o merged.ics`}
           </a>
           <span className="mx-3">•</span>
           <a
-            href="https://github.com/sanrakudo/icalkit/blob/main/LICENSE"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/LICENSES.txt"
             className="text-indigo-600 hover:text-indigo-700 font-semibold"
           >
-            ライセンス表記
+            ライセンス情報
           </a>
         </div>
       </footer>
