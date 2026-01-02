@@ -32,11 +32,6 @@
     "icalendar",
     "ics",
     "calendar",
-    "cli",
-    "api",
-    "library",
-    "split",
-    "merge",
     "google-calendar"
   ],
   "repository": {
