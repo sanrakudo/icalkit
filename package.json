@@ -23,10 +23,10 @@
     "test:coverage": "pnpm -r test:coverage",
     "test:ui": "pnpm -r test:ui"
   },
-  "packageManager": "pnpm@10.18.3",
+  "packageManager": "pnpm@10.26.2",
   "engines": {
     "node": ">=24.0.0",
-    "pnpm": ">=9.0.0"
+    "pnpm": ">=10.26.2"
   },
   "devDependencies": {
     "@cybozu/eslint-config": "^25.0.0",
