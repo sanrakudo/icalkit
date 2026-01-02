@@ -1,12 +1,24 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import license from 'rollup-plugin-license';
+import sitemap from 'vite-plugin-sitemap';
 import path from 'node:path';
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
+    sitemap({
+      hostname: 'https://icalkit.app',
+      dynamicRoutes: ['/splitter', '/licenses'],
+      changefreq: 'monthly',
+      priority: {
+        '/': 1.0,
+        '/splitter': 0.8,
+        '/licenses': 0.5,
+      },
+      readable: true,
+    }),
     license({
       thirdParty: {
         output: {
