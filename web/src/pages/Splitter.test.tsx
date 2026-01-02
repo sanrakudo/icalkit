@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import Splitter from './Splitter';
 
 // Mock file-saver
@@ -7,9 +8,14 @@ vi.mock('file-saver', () => ({
   saveAs: vi.fn(),
 }));
 
+// Helper function to render with router
+const renderWithRouter = (component: React.ReactElement) => {
+  return render(<MemoryRouter>{component}</MemoryRouter>);
+};
+
 describe('Splitter Component', () => {
   it('should render the component', () => {
-    render(<Splitter />);
+    renderWithRouter(<Splitter />);
 
     expect(screen.getByText(/iCalKit Splitter/i)).toBeInTheDocument();
     expect(
@@ -18,14 +24,14 @@ describe('Splitter Component', () => {
   });
 
   it('should display file upload area', () => {
-    render(<Splitter />);
+    renderWithRouter(<Splitter />);
 
     expect(screen.getByText(/iCalファイルをドロップ/i)).toBeInTheDocument();
     expect(screen.getByText(/ファイルを選択/i)).toBeInTheDocument();
   });
 
   it('should handle valid ICS file upload', async () => {
-    render(<Splitter />);
+    renderWithRouter(<Splitter />);
 
     const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
@@ -66,7 +72,7 @@ END:VCALENDAR`;
   });
 
   it('should display event count after file upload', async () => {
-    render(<Splitter />);
+    renderWithRouter(<Splitter />);
 
     const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
@@ -113,7 +119,7 @@ END:VCALENDAR`;
   });
 
   it('should show chunk size slider after file upload', async () => {
-    render(<Splitter />);
+    renderWithRouter(<Splitter />);
 
     const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
@@ -148,7 +154,7 @@ END:VCALENDAR`;
   });
 
   it('should calculate correct number of output files', async () => {
-    render(<Splitter />);
+    renderWithRouter(<Splitter />);
 
     // Create a calendar with 1500 events
     let icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Test//Test//EN\n`;
@@ -182,7 +188,7 @@ END:VCALENDAR`;
   });
 
   it('should show split button after file upload', async () => {
-    render(<Splitter />);
+    renderWithRouter(<Splitter />);
 
     const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
@@ -214,7 +220,7 @@ END:VCALENDAR`;
   });
 
   it('should show event list toggle button', async () => {
-    render(<Splitter />);
+    renderWithRouter(<Splitter />);
 
     const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0

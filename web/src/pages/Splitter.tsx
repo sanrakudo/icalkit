@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import {
@@ -172,7 +173,10 @@ export default function Splitter() {
     <div className="bg-gradient-to-br from-indigo-50 via-white to-purple-50 min-h-screen">
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-3 mb-4">
+          <Link
+            to="/"
+            className="inline-flex items-center justify-center gap-3 mb-4 hover:opacity-80 transition-opacity"
+          >
             <img
               src="/icalkit-icon.svg"
               alt="iCalKit Logo"
@@ -181,7 +185,7 @@ export default function Splitter() {
             <h1 className="text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
               iCalKit Splitter
             </h1>
-          </div>
+          </Link>
           <p className="text-gray-600 text-lg">
             大きなiCalファイルを分割して、Googleカレンダーに簡単インポート
           </p>
