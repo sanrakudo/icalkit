@@ -41,6 +41,12 @@ export default function Splitter() {
     if (selectedFile && selectedFile.name.endsWith('.ics')) {
       setFile(selectedFile);
 
+      // Reset UI state
+      setChunkSize(500);
+      setShowEventList(false);
+      setSearchQuery('');
+      setExpandedChunks(new Set());
+
       const reader = new FileReader();
       reader.onload = (e) => {
         try {
@@ -313,6 +319,127 @@ export default function Splitter() {
                 `✨ ${numFiles}個のファイルに分割してダウンロード`
               )}
             </button>
+
+            {/* Event List Section */}
+            <div className="mt-8 pt-8 border-t border-gray-200">
+              <button
+                onClick={() => setShowEventList(!showEventList)}
+                className="w-full flex items-center justify-between text-left mb-4"
+              >
+                <h2 className="text-2xl font-bold text-gray-800">
+                  📅 イベント一覧
+                </h2>
+                <svg
+                  className={`w-6 h-6 text-gray-600 transition-transform ${
+                    showEventList ? 'rotate-180' : ''
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+
+              {showEventList && (
+                <div className="space-y-4">
+                  <div className="mb-4">
+                    <input
+                      type="text"
+                      placeholder="🔍 イベントを検索..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none transition-colors"
+                    />
+                    <p className="text-sm text-gray-500 mt-2">
+                      {filteredEvents.length} / {totalEvents} イベント
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    {chunkedEvents.map((chunk) => (
+                      <div
+                        key={chunk.fileNumber}
+                        className="border-2 border-indigo-100 rounded-lg overflow-hidden"
+                      >
+                        <button
+                          onClick={() => toggleChunk(chunk.fileNumber)}
+                          className="w-full flex items-center justify-between p-4 bg-gradient-to-r from-indigo-50 to-purple-50 hover:from-indigo-100 hover:to-purple-100 transition-colors"
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="text-2xl">📁</span>
+                            <div className="text-left">
+                              <h3 className="font-semibold text-gray-800">
+                                {chunk.fileName}
+                              </h3>
+                              <p className="text-sm text-gray-600">
+                                {chunk.events.length} イベント
+                              </p>
+                            </div>
+                          </div>
+                          <svg
+                            className={`w-6 h-6 text-gray-600 transition-transform ${
+                              expandedChunks.has(chunk.fileNumber)
+                                ? 'rotate-180'
+                                : ''
+                            }`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </button>
+
+                        {expandedChunks.has(chunk.fileNumber) && (
+                          <div className="max-h-96 overflow-y-auto p-4 space-y-3 bg-white">
+                            {chunk.events.map((event) => (
+                              <div
+                                key={event.id}
+                                className="border border-gray-200 rounded-lg p-4 hover:border-indigo-300 hover:shadow-md transition-all"
+                              >
+                                <h3 className="font-semibold text-gray-800 mb-2">
+                                  {event.summary}
+                                </h3>
+                                {event.startDate && (
+                                  <p className="text-sm text-gray-600 mb-1">
+                                    🕐 {formatDate(event.startDate)}
+                                    {event.endDate &&
+                                      event.endDate.getTime() !==
+                                        event.startDate.getTime() &&
+                                      ` → ${formatDate(event.endDate)}`}
+                                  </p>
+                                )}
+                                {event.location && (
+                                  <p className="text-sm text-gray-600 mb-1">
+                                    📍 {event.location}
+                                  </p>
+                                )}
+                                {event.description && (
+                                  <p className="text-sm text-gray-500 mt-2 line-clamp-2">
+                                    {event.description}
+                                  </p>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         )}
 
@@ -322,128 +449,6 @@ export default function Splitter() {
           </p>
           <p>分割されたファイルは.zip形式でダウンロードされます</p>
         </div>
-
-        {totalEvents > 0 && (
-          <div className="bg-white rounded-2xl shadow-xl p-8 mt-6">
-            <button
-              onClick={() => setShowEventList(!showEventList)}
-              className="w-full flex items-center justify-between text-left mb-4"
-            >
-              <h2 className="text-2xl font-bold text-gray-800">
-                📅 イベント一覧
-              </h2>
-              <svg
-                className={`w-6 h-6 text-gray-600 transition-transform ${
-                  showEventList ? 'rotate-180' : ''
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-
-            {showEventList && (
-              <div className="space-y-4">
-                <div className="mb-4">
-                  <input
-                    type="text"
-                    placeholder="🔍 イベントを検索..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none transition-colors"
-                  />
-                  <p className="text-sm text-gray-500 mt-2">
-                    {filteredEvents.length} / {totalEvents} イベント
-                  </p>
-                </div>
-
-                <div className="space-y-4">
-                  {chunkedEvents.map((chunk) => (
-                    <div
-                      key={chunk.fileNumber}
-                      className="border-2 border-indigo-100 rounded-lg overflow-hidden"
-                    >
-                      <button
-                        onClick={() => toggleChunk(chunk.fileNumber)}
-                        className="w-full flex items-center justify-between p-4 bg-gradient-to-r from-indigo-50 to-purple-50 hover:from-indigo-100 hover:to-purple-100 transition-colors"
-                      >
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl">📁</span>
-                          <div className="text-left">
-                            <h3 className="font-semibold text-gray-800">
-                              {chunk.fileName}
-                            </h3>
-                            <p className="text-sm text-gray-600">
-                              {chunk.events.length} イベント
-                            </p>
-                          </div>
-                        </div>
-                        <svg
-                          className={`w-6 h-6 text-gray-600 transition-transform ${
-                            expandedChunks.has(chunk.fileNumber)
-                              ? 'rotate-180'
-                              : ''
-                          }`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
-                      </button>
-
-                      {expandedChunks.has(chunk.fileNumber) && (
-                        <div className="max-h-96 overflow-y-auto p-4 space-y-3 bg-white">
-                          {chunk.events.map((event) => (
-                            <div
-                              key={event.id}
-                              className="border border-gray-200 rounded-lg p-4 hover:border-indigo-300 hover:shadow-md transition-all"
-                            >
-                              <h3 className="font-semibold text-gray-800 mb-2">
-                                {event.summary}
-                              </h3>
-                              {event.startDate && (
-                                <p className="text-sm text-gray-600 mb-1">
-                                  🕐 {formatDate(event.startDate)}
-                                  {event.endDate &&
-                                    event.endDate.getTime() !==
-                                      event.startDate.getTime() &&
-                                    ` → ${formatDate(event.endDate)}`}
-                                </p>
-                              )}
-                              {event.location && (
-                                <p className="text-sm text-gray-600 mb-1">
-                                  📍 {event.location}
-                                </p>
-                              )}
-                              {event.description && (
-                                <p className="text-sm text-gray-500 mt-2 line-clamp-2">
-                                  {event.description}
-                                </p>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
       </div>
     </div>
   );
