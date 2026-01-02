@@ -33,6 +33,25 @@ This guide covers deploying iCalKit to Cloudflare Pages via automatic git integr
    - Every push to `main` branch triggers automatic deployment
    - Pull requests create preview deployments
 
+4. **Configure Branch Deployments (Optional)**
+
+   To exclude Renovate PRs from preview deployments:
+   - Go to your Pages project → **Settings** → **Builds & deployments**
+   - Under **Configure Production deployments** section, find preview deployment settings
+   - Select **Custom branches** (instead of "All non-production branches")
+   - Configure branch patterns:
+     - **Include Preview branches**: `*`
+     - **Exclude Preview branches**: `renovate/*`
+   - Click **Save**
+   - This prevents preview builds for dependency update PRs while keeping CI checks
+
+   Note: Cloudflare Pages evaluates exclude rules first, then include rules. So this configuration means "include all branches except those starting with renovate/".
+
+   **Benefits:**
+   - Reduces build time and Cloudflare Pages usage
+   - Renovate PRs still run CI tests
+   - Only meaningful feature PRs get preview deployments
+
 ### Custom Domain Setup
 
 1. **Add Domain to Pages**
