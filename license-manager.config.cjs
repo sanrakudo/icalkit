@@ -18,6 +18,7 @@ const config = createConfig({
       'CC-BY-3.0',
       'CC-BY-4.0',
       '(MIT OR CC0-1.0)',
+      '(MIT AND CC-BY-3.0)',
       'BlueOak-1.0.0',
       'Unlicense',
       'MIT-0',
