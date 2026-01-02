@@ -154,7 +154,7 @@ export default function Home() {
             <div className="text-4xl mb-4">🔒</div>
             <h3 className="font-bold text-lg mb-2">完全プライバシー保護</h3>
             <p className="text-gray-600 text-sm">
-              すべての処理はブラウザ内で完結。サーバーにデータは送信されません
+              カレンダーファイルはブラウザ内で処理。サーバーにアップロードされません
             </p>
           </div>
           <div className="bg-white rounded-xl p-6 shadow-lg text-center">

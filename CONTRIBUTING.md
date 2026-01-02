@@ -95,8 +95,8 @@ icalkit/
 
 ### Privacy & Security
 
-- All processing must happen client-side
-- No data should be sent to external servers
+- All calendar file processing must happen client-side
+- Calendar files should never be uploaded to external servers
 - Clearly communicate privacy benefits to users
 
 ### Monorepo Guidelines

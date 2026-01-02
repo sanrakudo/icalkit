@@ -190,7 +190,8 @@ export default function Splitter() {
             大きなiCalファイルを分割して、Googleカレンダーに簡単インポート
           </p>
           <p className="text-gray-500 text-sm mt-2">
-            🔒 すべての処理はブラウザ内で完結。データは送信されません
+            🔒
+            カレンダーファイルはブラウザ内で処理。サーバーにアップロードされません
           </p>
         </div>
 

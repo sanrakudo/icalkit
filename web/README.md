@@ -84,4 +84,4 @@ See the root README.md for detailed Cloudflare Pages setup instructions.
 
 ## 🔒 Privacy
 
-All file processing happens client-side in the browser. No data is sent to any server.
+Calendar files are processed entirely client-side in the browser. No files are uploaded to servers.
