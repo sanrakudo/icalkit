@@ -1,6 +1,6 @@
 {
   "name": "icalkit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "iCalendar file management - CLI tools and Node.js API",
   "type": "module",
   "main": "./dist/index.js",
