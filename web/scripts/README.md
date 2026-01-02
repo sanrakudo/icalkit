@@ -9,7 +9,7 @@ Generates PNG images from SVG logo files in various sizes for different use case
 ### Usage
 
 ```bash
-npm run generate-images
+pnpm generate-images
 ```
 
 ### What it generates
@@ -32,7 +32,7 @@ Run this script whenever you update the SVG logo files to regenerate all PNG var
 
 ```bash
 # After updating logos
-npm run generate-images
+pnpm generate-images
 
 # Then commit the updated PNG files
 git add public/*.png
@@ -41,4 +41,4 @@ git commit -m "Update logo images"
 
 ### Dependencies
 
-Requires `sharp` package (already in devDependencies).
+Requires `@resvg/resvg-js` package (already in devDependencies).

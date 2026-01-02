@@ -24,21 +24,22 @@ const config = createConfig({
       '(MIT AND Zlib)', // pako (jszip dependency) - both are permissive licenses
     ],
     allowPackages: [
-      // sharp is a devDependency used only for generating images from SVG
-      // It depends on @img/sharp-libvips-* which is LGPL-3.0-or-later
-      'sharp',
-      '@img/sharp-darwin-arm64',
-      '@img/sharp-darwin-x64',
-      '@img/sharp-libvips-darwin-arm64',
-      '@img/sharp-libvips-darwin-x64',
-      '@img/sharp-libvips-linux-arm64',
-      '@img/sharp-libvips-linux-x64',
-      '@img/sharp-libvips-linuxmusl-x64',
-      '@img/sharp-linux-arm64',
-      '@img/sharp-linux-x64',
       // jszip is dual-licensed: (MIT OR GPL-3.0-or-later)
       // We use it under the MIT license
       'jszip',
+      // sharp is a devDependency of wrangler (Cloudflare Pages deployment tool)
+      // It's not used in production code or bundled in the application
+      'sharp',
+      '@img/sharp-darwin-arm64',
+      '@img/sharp-libvips-darwin-arm64',
+      '@img/sharp-libvips-linuxmusl-x64',
+      '@img/sharp-linux-arm64',
+      '@img/sharp-linux-x64',
+      '@img/sharp-linuxmusl-arm64',
+      '@img/sharp-linuxmusl-x64',
+      '@img/sharp-wasm32',
+      '@img/sharp-win32-ia32',
+      '@img/sharp-win32-x64',
     ],
   },
 });
