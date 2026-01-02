@@ -8,7 +8,7 @@ importers:
 
   .: {}
 
-  cli: {}
+  lib: {}
 
   web:
     dependencies:

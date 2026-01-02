@@ -91,7 +91,7 @@ This project uses pnpm workspaces for monorepo management:
 ```
 icalkit/
 ├── web/           # icalkit-web - React web application
-├── cli/           # icalkit-cli - Command-line tools (coming soon)
+├── lib/           # icalkit - CLI tools & Node.js API (npm package)
 ├── package.json   # Root package with workspace scripts
 └── pnpm-workspace.yaml
 ```
@@ -104,7 +104,7 @@ From the root directory:
 pnpm dev              # Start web dev server
 pnpm build            # Build all packages
 pnpm build:web        # Build web only
-pnpm build:cli        # Build CLI only
+pnpm build:lib        # Build lib (icalkit) only
 pnpm lint             # Lint all packages
 pnpm generate-images  # Generate PNG images from logos
 ```

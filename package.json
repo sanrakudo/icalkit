@@ -5,9 +5,9 @@
   "description": "iCalKit - Calendar file management tools (monorepo)",
   "scripts": {
     "dev": "pnpm --filter icalkit-web dev",
-    "build": "pnpm --filter icalkit-web build && pnpm --filter icalkit-cli build",
+    "build": "pnpm --filter icalkit-web build && pnpm --filter icalkit build",
     "build:web": "pnpm --filter icalkit-web build",
-    "build:cli": "pnpm --filter icalkit-cli build",
+    "build:lib": "pnpm --filter icalkit build",
     "lint": "pnpm -r lint",
     "generate-images": "pnpm --filter icalkit-web generate-images"
   },

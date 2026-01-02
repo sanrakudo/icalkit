@@ -1,11 +1,23 @@
 {
-  "name": "icalkit-cli",
+  "name": "icalkit",
   "version": "1.0.0",
-  "description": "Command-line tools for managing iCalendar files",
+  "description": "iCalendar file management - CLI tools and Node.js API",
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "bin": {
     "icalkit": "./bin/icalkit.js"
   },
+  "files": [
+    "dist",
+    "bin"
+  ],
   "scripts": {
     "build": "echo 'CLI build - coming soon'",
     "dev": "echo 'CLI dev - coming soon'",
@@ -15,7 +27,12 @@
     "icalendar",
     "ics",
     "calendar",
-    "cli"
+    "cli",
+    "api",
+    "library",
+    "split",
+    "merge",
+    "google-calendar"
   ],
   "author": "",
   "license": "MIT",
