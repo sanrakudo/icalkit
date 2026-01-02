@@ -4,78 +4,114 @@ Thanks for your interest in contributing! 🎉
 
 ## Development Setup
 
-### Web Tools
+### Prerequisites
 
-The web tools are pure HTML/JavaScript files that can be opened directly in a browser.
+- Node.js >= 24.0.0
+- pnpm >= 9.0.0 (or use [mise](https://mise.jdx.dev/))
+
+```bash
+# Using mise (recommended)
+curl https://mise.run | sh
+mise install
+
+# Or install manually
+npm install -g pnpm
+```
+
+### Getting Started
 
 ```bash
 # Clone the repository
 git clone https://github.com/sanrakudo/icalkit.git
 cd icalkit
 
-# For local development, use a simple HTTP server
-cd web
-python -m http.server 8000
-# or
-npx serve
+# Install dependencies
+pnpm install
+
+# Start development server
+pnpm dev
+
+# Open http://localhost:5173
 ```
 
-Then open http://localhost:8000 in your browser.
+### Building
 
-### CLI Tools (Coming Soon)
+```bash
+# Build all packages
+pnpm build
 
-Instructions will be added when CLI development begins.
+# Build web only
+pnpm build:web
+
+# Build lib only
+pnpm build:lib
+```
 
 ## Project Structure
 
+This is a pnpm monorepo with two main packages:
+
 ```
 icalkit/
-├── web/              # Web-based tools
-│   ├── index.html    # Landing page
-│   ├── splitter/     # Splitter tool
-│   ├── viewer/       # Viewer tool (coming soon)
-│   ├── merger/       # Merger tool (coming soon)
-│   └── shared/       # Shared CSS/JS utilities
-├── cli/              # Command-line tools (coming soon)
-│   ├── bin/          # Executable scripts
-│   └── src/          # Source code
-└── README.md
+├── web/              # icalkit-web - React web application
+│   ├── src/
+│   │   ├── pages/    # Page components (Home, Splitter, etc.)
+│   │   ├── App.tsx   # Router setup
+│   │   └── main.tsx  # Entry point
+│   ├── public/       # Static assets
+│   └── scripts/      # Build scripts
+├── lib/              # icalkit - CLI tools & Node.js API
+│   ├── src/          # Source code (coming soon)
+│   ├── bin/          # CLI executables (coming soon)
+│   └── README.md
+├── package.json      # Root workspace configuration
+└── pnpm-workspace.yaml
 ```
 
 ## Adding a New Web Tool
 
-1. Create a new directory under `web/` (e.g., `web/viewer/`)
-2. Add an `index.html` file with your tool
-3. Follow the existing design patterns (Tailwind CSS, React via CDN)
-4. Update `web/index.html` to add a link to your tool
-5. Update the main `README.md` with tool description
+1. Create a new page component in `web/src/pages/` (e.g., `Viewer.tsx`)
+2. Add route in `web/src/App.tsx`
+3. Add navigation link in `web/src/pages/Home.tsx`
+4. Update the main `README.md` with tool description
 
 ## Design Guidelines
 
 ### UI/UX
-- Use Tailwind CSS for styling
+- Use Tailwind CSS 4 for styling
 - Follow the gradient color scheme (indigo/purple)
 - Maintain responsive design (mobile-friendly)
 - Keep interfaces simple and intuitive
 
 ### Code Style
-- Use clear, descriptive variable names
-- Add comments for complex logic
-- Keep functions focused and small
-- Handle errors gracefully with user-friendly messages
+- **TypeScript**: Use proper typing, avoid `any`
+- **React**: Use functional components and hooks
+- **Naming**: Clear, descriptive variable and function names
+- **Comments**: Add comments for complex logic
+- **Functions**: Keep functions focused and small
+- **Error Handling**: Handle errors gracefully with user-friendly messages
 
 ### Privacy & Security
 - All processing must happen client-side
 - No data should be sent to external servers
 - Clearly communicate privacy benefits to users
 
+### Monorepo Guidelines
+- Use workspace references for shared dependencies
+- Keep packages loosely coupled
+- Use `pnpm --filter <package>` for package-specific commands
+
 ## Testing
 
 Before submitting:
-1. Test with various iCal file sizes
-2. Check browser console for errors
-3. Verify mobile responsiveness
-4. Test in multiple browsers (Chrome, Firefox, Safari)
+1. **Build Check**: Ensure `pnpm build` completes without errors
+2. **Type Check**: Run TypeScript type checking
+3. **Lint**: Run `pnpm lint` and fix any issues
+4. **Manual Testing**:
+   - Test with various iCal file sizes
+   - Check browser console for errors
+   - Verify mobile responsiveness
+   - Test in multiple browsers (Chrome, Firefox, Safari)
 
 ## Pull Request Process
 
@@ -89,12 +125,18 @@ Before submitting:
 
 ## Commit Message Format
 
-- `Add:` - New feature
-- `Fix:` - Bug fix
-- `Update:` - Update existing feature
-- `Docs:` - Documentation changes
-- `Style:` - Code style changes (formatting, etc.)
-- `Refactor:` - Code refactoring
+We follow conventional commits:
+
+- `feat:` - New feature
+- `fix:` - Bug fix
+- `docs:` - Documentation changes
+- `style:` - Code style changes (formatting, etc.)
+- `refactor:` - Code refactoring
+- `test:` - Adding or updating tests
+- `chore:` - Maintenance tasks
+- `build:` - Build system or dependency changes
+
+Example: `feat: add event filtering to splitter tool`
 
 ## Questions?
 

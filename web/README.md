@@ -4,15 +4,15 @@ Web-based tools for managing iCalendar files, built with React + TypeScript + Vi
 
 ## 🚀 Development
 
-From the root directory:
+From the monorepo root directory:
 
 ```bash
 # Install dependencies
 pnpm install
 
-# Start development server (web only)
+# Start development server
 pnpm dev
-# or from root: pnpm --filter icalkit-web dev
+# or: pnpm --filter icalkit-web dev
 
 # Build for production
 pnpm build:web
@@ -24,7 +24,7 @@ pnpm --filter icalkit-web preview
 # Lint code
 pnpm --filter icalkit-web lint
 
-# Generate images from SVG logos
+# Generate PNG images from SVG logos
 pnpm generate-images
 ```
 
@@ -60,8 +60,8 @@ web/
 
 - `vite.config.ts` - Vite configuration
 - `tsconfig.json` - TypeScript configuration
-- `tailwind.config.js` - Tailwind CSS configuration
-- `postcss.config.js` - PostCSS configuration
+- `index.css` - Tailwind CSS 4 configuration (using @import)
+- `postcss.config.js` - PostCSS configuration (@tailwindcss/postcss)
 - `eslint.config.js` - ESLint configuration
 
 ## 📝 Adding New Tools
@@ -72,14 +72,14 @@ web/
 
 ## 🌐 Deployment
 
-The app is deployed to GitHub Pages. Build artifacts are generated in `dist/`.
+The app is deployed to Cloudflare Pages. Build artifacts are generated in `dist/`.
 
-```bash
-# Build for production
-npm run build
+**Build Settings:**
+- Build command: `pnpm build:web`
+- Build output directory: `web/dist`
+- Node version: 24
 
-# The dist/ folder contains the deployable files
-```
+See the root README.md for detailed Cloudflare Pages setup instructions.
 
 ## 🔒 Privacy
 
