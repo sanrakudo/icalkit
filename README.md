@@ -139,47 +139,30 @@ npm install -g pnpm
 
 ## 🚀 Deployment
 
-### Cloudflare Pages
+The web application is deployed to [Cloudflare Pages](https://pages.cloudflare.com/).
 
-The web application is deployed to Cloudflare Pages.
+**Live URL:** [https://icalkit.app](https://icalkit.app)
 
-#### Method 1: Cloudflare Dashboard (Recommended for automatic deployments)
+### Quick Start
 
-1. Go to Cloudflare Pages dashboard
-2. Click "Create a project" → "Connect to Git"
-3. Select your repository
-4. Configure build settings:
-   - **Framework preset**: None
-   - **Build command**: `pnpm build:web`
-   - **Build output directory**: `web/dist`
-   - **Root directory**: (leave empty)
-5. Environment variables:
-   - `NODE_VERSION`: `24`
-6. Save and deploy
+**Automatic Deployment (Recommended):**
+- Push to `main` branch → Cloudflare Pages automatically builds and deploys
+- Pull requests → Automatic preview deployments
 
-Cloudflare Pages will automatically deploy on every push to the main branch.
-
-#### Method 2: Wrangler CLI (Manual deployments)
-
-Wrangler is included in the project's devDependencies.
-
+**Manual Deployment:**
 ```bash
-# Login to Cloudflare (first time only)
-pnpm --filter icalkit-web exec wrangler login
-
-# Deploy to production
 pnpm deploy
-
-# Deploy preview
-pnpm deploy:preview
 ```
 
-**Custom Domain:**
+### Setup Guide
 
-To use a custom domain like `icalkit.app`:
-1. Go to your Cloudflare Pages project → Custom domains
-2. Add your domain
-3. Cloudflare will automatically configure DNS if the domain is on Cloudflare
+For detailed deployment instructions including:
+- Initial Cloudflare Pages setup
+- Custom domain configuration with Bulk Redirects
+- Wrangler CLI usage
+- Troubleshooting
+
+See: **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**
 
 ## 🤝 Contributing
 
