@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0](https://github.com/sanrakudo/icalkit/compare/icalkit-v0.1.0...icalkit-v0.2.0) (2026-01-02)
+
+
+### Features
+
+* update default chunk size based on Google Calendar limit info ([3c022c0](https://github.com/sanrakudo/icalkit/commit/3c022c01d0ae95242b3027511d15d36905d02a26))
+
+
+### Documentation
+
+* add status badges to README files ([8bf56eb](https://github.com/sanrakudo/icalkit/commit/8bf56eb0bf7cdf739fcd60d64fddd6ef0a0dd881))
+
 ## [0.1.0](https://github.com/sanrakudo/icalkit/compare/icalkit-v0.0.1...icalkit-v0.1.0) (2026-01-02)
 
 
