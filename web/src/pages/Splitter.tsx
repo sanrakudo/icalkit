@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import {
@@ -20,6 +20,22 @@ export default function Splitter() {
   const [showEventList, setShowEventList] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedChunks, setExpandedChunks] = useState<Set<number>>(new Set());
+
+  const settingsSectionRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to settings section when file is loaded
+  useEffect(() => {
+    if (
+      totalEvents > 0 &&
+      settingsSectionRef.current &&
+      settingsSectionRef.current.scrollIntoView
+    ) {
+      settingsSectionRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+  }, [totalEvents]);
 
   const handleFileChange = useCallback((selectedFile: File | null) => {
     if (selectedFile && selectedFile.name.endsWith('.ics')) {
@@ -213,7 +229,10 @@ export default function Splitter() {
         </div>
 
         {totalEvents > 0 && (
-          <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
+          <div
+            ref={settingsSectionRef}
+            className="bg-white rounded-2xl shadow-xl p-8 mb-6"
+          >
             <div className="mb-6">
               <div className="flex items-center justify-between mb-4">
                 <label
