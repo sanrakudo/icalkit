@@ -1,16 +1,14 @@
 import { useState, useCallback, useMemo } from 'react';
-import ICAL from 'ical.js';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-
-interface ICalEvent {
-  id: number;
-  summary: string;
-  description: string;
-  location: string;
-  startDate: Date | null;
-  endDate: Date | null;
-}
+import {
+  parseICalContent,
+  extractEvents,
+  sortEventsByDate,
+  filterEvents,
+  split,
+  type ICalEvent,
+} from 'icalkit';
 
 export default function Splitter() {
   const [file, setFile] = useState<File | null>(null);
@@ -30,40 +28,14 @@ export default function Splitter() {
       reader.onload = (e) => {
         try {
           const result = e.target?.result as string;
-          const jcalData = ICAL.parse(result);
-          const comp = new ICAL.Component(jcalData);
-          const vevents = comp.getAllSubcomponents('vevent');
-          setTotalEvents(vevents.length);
+          const parsed = parseICalContent(result);
+          setTotalEvents(parsed.totalEvents);
 
-          // Extract event details
-          const eventList: ICalEvent[] = vevents.map((vevent, index) => {
-            const event = new ICAL.Event(vevent);
-            const summary = event.summary || '(タイトルなし)';
-            const description = event.description || '';
-            const location = event.location || '';
-            const startDate = event.startDate
-              ? event.startDate.toJSDate()
-              : null;
-            const endDate = event.endDate ? event.endDate.toJSDate() : null;
+          // Extract and sort events
+          const eventList = extractEvents(parsed.vevents);
+          const sorted = sortEventsByDate(eventList);
 
-            return {
-              id: index,
-              summary,
-              description,
-              location,
-              startDate,
-              endDate,
-            };
-          });
-
-          // Sort by start date
-          eventList.sort((a, b) => {
-            if (!a.startDate) return 1;
-            if (!b.startDate) return -1;
-            return a.startDate.getTime() - b.startDate.getTime();
-          });
-
-          setEvents(eventList);
+          setEvents(sorted);
         } catch (error) {
           alert(
             'iCalファイルの読み込みに失敗しました: ' + (error as Error).message,
@@ -105,54 +77,20 @@ export default function Splitter() {
     setIsProcessing(true);
 
     try {
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        try {
-          const result = e.target?.result as string;
-          const jcalData = ICAL.parse(result);
-          const comp = new ICAL.Component(jcalData);
-          const vevents = comp.getAllSubcomponents('vevent');
+      const content = await file.text();
+      const result = await split(content, { chunkSize });
 
-          const numChunks = Math.ceil(vevents.length / chunkSize);
-          const zip = new JSZip();
+      // Create ZIP file
+      const zip = new JSZip();
+      result.chunks.forEach((chunk) => {
+        zip.file(chunk.fileName, chunk.content);
+      });
 
-          for (let i = 0; i < numChunks; i++) {
-            const start = i * chunkSize;
-            const end = Math.min(start + chunkSize, vevents.length);
-            const chunk = vevents.slice(start, end);
-
-            // 新しいカレンダーコンポーネントを作成
-            const newCal = new ICAL.Component(['vcalendar', [], []]);
-
-            // 元のカレンダーのプロパティをコピー
-            const originalProps = comp.getAllProperties();
-            originalProps.forEach((prop) => {
-              if (prop.name !== 'vevent') {
-                newCal.addProperty(prop);
-              }
-            });
-
-            // イベントを追加
-            chunk.forEach((vevent) => {
-              newCal.addSubcomponent(vevent);
-            });
-
-            const icsContent = newCal.toString();
-            const fileName = `calendar_part_${i + 1}_of_${numChunks}.ics`;
-            zip.file(fileName, icsContent);
-          }
-
-          const zipBlob = await zip.generateAsync({ type: 'blob' });
-          saveAs(zipBlob, `calendar_split_${numChunks}_files.zip`);
-        } catch (error) {
-          alert('分割処理に失敗しました: ' + (error as Error).message);
-        } finally {
-          setIsProcessing(false);
-        }
-      };
-      reader.readAsText(file);
+      const zipBlob = await zip.generateAsync({ type: 'blob' });
+      saveAs(zipBlob, `calendar_split_${result.chunks.length}_files.zip`);
     } catch (error) {
-      alert('エラーが発生しました: ' + (error as Error).message);
+      alert('分割処理に失敗しました: ' + (error as Error).message);
+    } finally {
       setIsProcessing(false);
     }
   };
@@ -160,14 +98,7 @@ export default function Splitter() {
   const numFiles = totalEvents > 0 ? Math.ceil(totalEvents / chunkSize) : 0;
 
   const filteredEvents = useMemo(() => {
-    if (!searchQuery) return events;
-    const query = searchQuery.toLowerCase();
-    return events.filter(
-      (event) =>
-        event.summary.toLowerCase().includes(query) ||
-        event.description.toLowerCase().includes(query) ||
-        event.location.toLowerCase().includes(query),
-    );
+    return filterEvents(events, searchQuery);
   }, [events, searchQuery]);
 
   const formatDate = (date: Date | null) => {

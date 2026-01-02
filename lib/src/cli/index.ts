@@ -3,16 +3,21 @@
  * Command-line interface for iCalendar file management
  */
 
-import { parseArgs } from 'node:util';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import {
+  handleSplitCommand,
+  handleMergeCommand,
+  handleViewCommand,
+  handleCleanCommand,
+} from './commands/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Read package.json for version
-const packageJsonPath = join(__dirname, '../package.json');
+const packageJsonPath = join(__dirname, '../../package.json');
 const packageJson = JSON.parse(await readFile(packageJsonPath, 'utf-8'));
 const VERSION = packageJson.version;
 
@@ -60,100 +65,6 @@ Documentation: https://github.com/sanrakudo/icalkit
 
 function showVersion(): void {
   console.log(`iCalKit v${VERSION}`);
-}
-
-async function handleSplitCommand(args: string[]): Promise<void> {
-  const { values, positionals } = parseArgs({
-    args,
-    options: {
-      'chunk-size': { type: 'string' },
-      'output-dir': { type: 'string' },
-    },
-    allowPositionals: true,
-  });
-
-  const inputFile = positionals[0];
-  if (!inputFile) {
-    throw new Error('Missing input file');
-  }
-
-  const options = {
-    chunkSize: values['chunk-size']
-      ? parseInt(values['chunk-size'], 10)
-      : undefined,
-    outputDir: values['output-dir'],
-  };
-
-  // TODO: Call lib.split()
-  console.log('Split command not yet implemented');
-  console.log('Input:', inputFile);
-  console.log('Options:', options);
-}
-
-async function handleMergeCommand(args: string[]): Promise<void> {
-  const { values, positionals } = parseArgs({
-    args,
-    options: {
-      output: { type: 'string', short: 'o' },
-    },
-    allowPositionals: true,
-  });
-
-  const inputFiles = positionals;
-  if (inputFiles.length === 0) {
-    throw new Error('Missing input files');
-  }
-
-  const outputPath = values.output;
-  if (!outputPath) {
-    throw new Error('Missing output file (use -o or --output)');
-  }
-
-  // TODO: Call lib.merge()
-  console.log('Merge command not yet implemented');
-  console.log('Inputs:', inputFiles);
-  console.log('Output:', outputPath);
-}
-
-async function handleViewCommand(args: string[]): Promise<void> {
-  const { positionals } = parseArgs({
-    args,
-    options: {},
-    allowPositionals: true,
-  });
-
-  const inputFile = positionals[0];
-  if (!inputFile) {
-    throw new Error('Missing input file');
-  }
-
-  // TODO: Call lib.view()
-  console.log('View command not yet implemented');
-  console.log('Input:', inputFile);
-}
-
-async function handleCleanCommand(args: string[]): Promise<void> {
-  const { values, positionals } = parseArgs({
-    args,
-    options: {
-      output: { type: 'string', short: 'o' },
-    },
-    allowPositionals: true,
-  });
-
-  const inputFile = positionals[0];
-  if (!inputFile) {
-    throw new Error('Missing input file');
-  }
-
-  const options = {
-    outputPath: values.output,
-  };
-
-  // TODO: Call lib.clean()
-  console.log('Clean command not yet implemented');
-  console.log('Input:', inputFile);
-  console.log('Options:', options);
 }
 
 export async function main(): Promise<void> {

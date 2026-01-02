@@ -25,6 +25,10 @@ importers:
         version: 3.7.4
 
   lib:
+    dependencies:
+      ical.js:
+        specifier: ^2.2.1
+        version: 2.2.1
     devDependencies:
       '@types/node':
         specifier: ^24.10.4
@@ -47,9 +51,9 @@ importers:
       file-saver:
         specifier: ^2.0.5
         version: 2.0.5
-      ical.js:
-        specifier: ^2.2.1
-        version: 2.2.1
+      icalkit:
+        specifier: workspace:*
+        version: link:../lib
       jszip:
         specifier: ^3.10.1
         version: 3.10.1

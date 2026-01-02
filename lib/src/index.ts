@@ -7,21 +7,22 @@ import packageJson from '../package.json' with { type: 'json' };
 
 export const version = packageJson.version;
 
-/**
- * Split a large iCalendar file into smaller chunks
- * @param inputPath - Path to the input .ics file
- * @param options - Split options
- */
-export async function split(
-  inputPath: string,
-  options?: {
-    chunkSize?: number;
-    outputDir?: string;
-  },
-): Promise<{ files: string[]; totalEvents: number }> {
-  // TODO: Implement split functionality
-  throw new Error('Not implemented yet');
-}
+// Common utilities
+export { parseICalContent } from './common/parser.js';
+export {
+  extractEvents,
+  sortEventsByDate,
+  filterEvents,
+} from './common/events.js';
+
+// Common types
+export type { ICalEvent, ParsedCalendar } from './common/types.js';
+
+// Splitter functionality
+export { split } from './splitter/index.js';
+
+// Splitter types
+export type { SplitOptions, SplitResult, ICSChunk } from './splitter/index.js';
 
 /**
  * Merge multiple iCalendar files into one
