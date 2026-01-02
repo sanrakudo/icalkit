@@ -1,5 +1,18 @@
 # iCalKit
 
+[![CI][ci-badge]][ci-url]
+[![npm version][npm-badge]][npm-url]
+[![License: MIT][license-badge]][license-url]
+
+<!-- Badge References -->
+
+[ci-badge]: https://github.com/sanrakudo/icalkit/actions/workflows/ci.yml/badge.svg
+[ci-url]: https://github.com/sanrakudo/icalkit/actions/workflows/ci.yml
+[npm-badge]: https://img.shields.io/npm/v/icalkit.svg
+[npm-url]: https://www.npmjs.com/package/icalkit
+[license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
+[license-url]: LICENSE
+
 🗓️ A collection of powerful tools for working with iCalendar (.ics) files - available as web apps and CLI utilities.
 
 ## 🌟 Features
