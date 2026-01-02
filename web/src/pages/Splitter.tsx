@@ -13,7 +13,7 @@ import {
 export default function Splitter() {
   const [file, setFile] = useState<File | null>(null);
   const [totalEvents, setTotalEvents] = useState(0);
-  const [chunkSize, setChunkSize] = useState(500);
+  const [chunkSize, setChunkSize] = useState(1000);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [events, setEvents] = useState<ICalEvent[]>([]);
@@ -42,7 +42,7 @@ export default function Splitter() {
       setFile(selectedFile);
 
       // Reset UI state
-      setChunkSize(500);
+      setChunkSize(1000);
       setShowEventList(false);
       setSearchQuery('');
       setExpandedChunks(new Set());
@@ -445,7 +445,16 @@ export default function Splitter() {
 
         <div className="text-center text-sm text-gray-500 mt-8">
           <p className="mb-2">
-            💡 Googleカレンダーの推奨インポートサイズは500イベント以下です
+            💡 Googleカレンダーのインポート上限は
+            <a
+              href="https://support.google.com/calendar/thread/725096?hl=en&msgid=10889694"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-indigo-600 hover:text-indigo-800 underline"
+            >
+              1,111イベント
+            </a>
+            です
           </p>
           <p>分割されたファイルは.zip形式でダウンロードされます</p>
         </div>

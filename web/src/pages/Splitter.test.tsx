@@ -173,9 +173,9 @@ END:VCALENDAR`;
     fireEvent.change(input);
 
     await waitFor(() => {
-      // Default chunk size is 500, so 1500 events should result in 3 files
+      // Default chunk size is 1000, so 1500 events should result in 2 files
       const filesCountElement = screen.getByText((_content, element) => {
-        return element?.textContent === '3';
+        return element?.textContent === '2';
       });
       expect(filesCountElement).toBeInTheDocument();
     });

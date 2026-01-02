@@ -78,7 +78,7 @@ The splitter helps you break down large iCal files that exceed import limits for
 
 **Features:**
 
-- Adjustable chunk size (default: 500 events)
+- Adjustable chunk size (default: 1000 events)
 - Preserves all calendar properties and metadata
 - Generates numbered files for easy sequential import
 - Downloads as a convenient ZIP archive

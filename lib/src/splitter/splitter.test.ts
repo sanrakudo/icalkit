@@ -84,13 +84,13 @@ describe('splitCalendarIntoChunks', () => {
     expect(chunks[2].eventCount).toBe(25);
   });
 
-  it('should use default chunk size of 500', () => {
-    const parsed = createTestCalendar(600);
+  it('should use default chunk size of 1000', () => {
+    const parsed = createTestCalendar(1500);
     const chunks = splitCalendarIntoChunks(parsed);
 
     expect(chunks).toHaveLength(2);
-    expect(chunks[0].eventCount).toBe(500);
-    expect(chunks[1].eventCount).toBe(100);
+    expect(chunks[0].eventCount).toBe(1000);
+    expect(chunks[1].eventCount).toBe(500);
   });
 
   it('should use custom file name pattern', () => {

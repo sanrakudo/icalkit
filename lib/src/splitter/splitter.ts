@@ -38,7 +38,7 @@ export function splitCalendarIntoChunks(
   parsed: ParsedCalendar,
   options: SplitOptions = {},
 ): ICSChunk[] {
-  const { chunkSize = 500, fileNamePattern } = options;
+  const { chunkSize = 1000, fileNamePattern } = options;
   const { vevents, properties } = parsed;
 
   const numChunks = Math.ceil(vevents.length / chunkSize);

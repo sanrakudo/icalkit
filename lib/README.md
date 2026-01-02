@@ -31,7 +31,7 @@ npm install icalkit
 
 ```bash
 # Split large iCal files
-icalkit split calendar.ics --chunk-size 500
+icalkit split calendar.ics --chunk-size 1000
 
 # View iCal file contents
 icalkit view calendar.ics
@@ -49,7 +49,7 @@ icalkit clean calendar.ics
 import { split, merge, view, clean } from 'icalkit';
 
 // Split iCal file
-const result = await split('calendar.ics', { chunkSize: 500 });
+const result = await split('calendar.ics', { chunkSize: 1000 });
 
 // Merge multiple files
 await merge(['file1.ics', 'file2.ics'], 'output.ics');
