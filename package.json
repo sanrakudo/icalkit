@@ -10,7 +10,9 @@
     "build:web": "pnpm --filter icalkit-web build",
     "build:lib": "pnpm --filter icalkit build",
     "lint": "pnpm -r lint",
-    "generate-images": "pnpm --filter icalkit-web generate-images"
+    "generate-images": "pnpm --filter icalkit-web generate-images",
+    "deploy": "pnpm build:web && pnpm --filter icalkit-web exec wrangler pages deploy ../web/dist",
+    "deploy:preview": "pnpm build:web && pnpm --filter icalkit-web exec wrangler pages deploy ../web/dist --branch=preview"
   },
   "engines": {
     "node": ">=24.0.0",

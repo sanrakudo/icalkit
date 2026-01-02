@@ -143,7 +143,7 @@ npm install -g pnpm
 
 The web application is deployed to Cloudflare Pages.
 
-**Setup via Cloudflare Dashboard:**
+#### Method 1: Cloudflare Dashboard (Recommended for automatic deployments)
 
 1. Go to Cloudflare Pages dashboard
 2. Click "Create a project" → "Connect to Git"
@@ -158,6 +158,21 @@ The web application is deployed to Cloudflare Pages.
 6. Save and deploy
 
 Cloudflare Pages will automatically deploy on every push to the main branch.
+
+#### Method 2: Wrangler CLI (Manual deployments)
+
+Wrangler is included in the project's devDependencies.
+
+```bash
+# Login to Cloudflare (first time only)
+pnpm --filter icalkit-web exec wrangler login
+
+# Deploy to production
+pnpm deploy
+
+# Deploy preview
+pnpm deploy:preview
+```
 
 **Custom Domain:**
 
