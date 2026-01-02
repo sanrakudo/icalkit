@@ -33,6 +33,7 @@ const config = createConfig({
       '@img/sharp-libvips-darwin-x64',
       '@img/sharp-libvips-linux-arm64',
       '@img/sharp-libvips-linux-x64',
+      '@img/sharp-libvips-linuxmusl-x64',
       '@img/sharp-linux-arm64',
       '@img/sharp-linux-x64',
       // jszip is dual-licensed: (MIT OR GPL-3.0-or-later)
