@@ -185,6 +185,9 @@ export default function Splitter() {
           <p className="text-gray-600 text-lg">
             大きなiCalファイルを分割して、Googleカレンダーに簡単インポート
           </p>
+          <p className="text-gray-500 text-sm mt-2">
+            🔒 すべての処理はブラウザ内で完結。データは送信されません
+          </p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
