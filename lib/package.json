@@ -35,7 +35,16 @@
     "merge",
     "google-calendar"
   ],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanrakudo/icalkit.git",
+    "directory": "lib"
+  },
+  "bugs": {
+    "url": "https://github.com/sanrakudo/icalkit/issues"
+  },
+  "homepage": "https://github.com/sanrakudo/icalkit#readme",
+  "author": "tasshi (Masaharu Tashiro) <tasshi.me@gmail.com>",
   "license": "MIT",
   "engines": {
     "node": ">=24.0.0"
