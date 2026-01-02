@@ -1,0 +1,74 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9333EA;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- Subtle pattern overlay -->
+  <g opacity="0.05">
+    <circle cx="150" cy="100" r="2" fill="white"/>
+    <circle cx="1050" cy="150" r="1.5" fill="white"/>
+    <circle cx="200" cy="500" r="2" fill="white"/>
+    <circle cx="950" cy="450" r="1" fill="white"/>
+    <circle cx="300" cy="200" r="1.5" fill="white"/>
+    <circle cx="850" cy="350" r="2" fill="white"/>
+    <circle cx="450" cy="550" r="1" fill="white"/>
+    <circle cx="750" cy="100" r="1.5" fill="white"/>
+  </g>
+  
+  <!-- Icon background circle -->
+  <circle cx="600" cy="275" r="130" fill="rgba(255,255,255,0.15)"/>
+  
+  <!-- Calendar icon -->
+  <g id="calendar-icon">
+    <!-- Calendar body -->
+    <rect x="500" y="175" width="200" height="200" rx="20" fill="white"/>
+    
+    <!-- Calendar header -->
+    <rect x="500" y="175" width="200" height="50" rx="20" fill="rgba(255,255,255,0.3)"/>
+    <rect x="500" y="200" width="200" height="25" fill="rgba(255,255,255,0.3)"/>
+    
+    <!-- Binding rings -->
+    <circle cx="550" cy="160" r="12" fill="white"/>
+    <circle cx="600" cy="160" r="12" fill="white"/>
+    <circle cx="650" cy="160" r="12" fill="white"/>
+    
+    <!-- Grid lines (split indicator) -->
+    <g stroke="rgba(255,255,255,0.4)" stroke-width="8" stroke-linecap="round">
+      <!-- Vertical split line -->
+      <line x1="600" y1="235" x2="600" y2="355"/>
+      
+      <!-- Horizontal lines -->
+      <line x1="520" y1="270" x2="680" y2="270"/>
+      <line x1="520" y1="305" x2="680" y2="305"/>
+      <line x1="520" y1="340" x2="680" y2="340"/>
+    </g>
+    
+    <!-- Split arrows -->
+    <g fill="rgba(255,255,255,0.6)">
+      <!-- Left arrow -->
+      <polygon points="560,275 545,267.5 545,282.5"/>
+      <!-- Right arrow -->
+      <polygon points="640,275 655,267.5 655,282.5"/>
+    </g>
+  </g>
+  
+  <!-- Text -->
+  <text x="600" y="500" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="120" font-weight="bold" fill="white" text-anchor="middle">iCalKit</text>
+  
+  <!-- Subtitle -->
+  <text x="600" y="560" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="36" fill="rgba(255,255,255,0.9)" text-anchor="middle">Calendar File Management Made Easy</text>
+  
+  <!-- Decorative corner elements -->
+  <g fill="rgba(255,255,255,0.2)">
+    <rect x="96" y="96" width="8" height="8"/>
+    <rect x="1096" y="96" width="8" height="8"/>
+    <rect x="96" y="526" width="8" height="8"/>
+    <rect x="1096" y="526" width="8" height="8"/>
+  </g>
+</svg>

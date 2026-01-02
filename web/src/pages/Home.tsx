@@ -6,9 +6,12 @@ export default function Home() {
       {/* Header */}
       <header className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <h1 className="text-6xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">
-            🗓️ iCalKit
-          </h1>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <img src="/icalkit-icon.svg" alt="iCalKit Logo" className="w-16 h-16" />
+            <h1 className="text-6xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              iCalKit
+            </h1>
+          </div>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             カレンダーファイル管理を簡単に。ブラウザ上で完結する安全なツール群
           </p>

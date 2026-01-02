@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint ",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-images": "node scripts/generate-images.mjs"
   },
   "dependencies": {
     "file-saver": "^2.0.5",
@@ -31,6 +32,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "postcss": "^8.5.6",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4.1.18",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",

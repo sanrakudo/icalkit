@@ -180,9 +180,12 @@ export default function Splitter() {
     <div className="bg-gradient-to-br from-indigo-50 via-white to-purple-50 min-h-screen">
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">
-            iCalKit Splitter
-          </h1>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <img src="/icalkit-icon.svg" alt="iCalKit Logo" className="w-12 h-12" />
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              iCalKit Splitter
+            </h1>
+          </div>
           <p className="text-gray-600 text-lg">
             大きなiCalファイルを分割して、Googleカレンダーに簡単インポート
           </p>
