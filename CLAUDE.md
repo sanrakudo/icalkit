@@ -66,13 +66,6 @@ node bin/icalkit.js --help          # Test CLI help
 node bin/icalkit.js split test.ics  # Test split command
 ```
 
-### Deployment
-
-```bash
-pnpm deploy             # Build and deploy web to Cloudflare Pages
-pnpm deploy:preview     # Deploy preview branch
-```
-
 ## Architecture
 
 ### Monorepo Structure

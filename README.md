@@ -150,16 +150,10 @@ The web application is deployed to [Cloudflare Pages](https://pages.cloudflare.c
 
 ### Quick Start
 
-**Automatic Deployment (Recommended):**
+**Automatic Deployment:**
 
 - Push to `main` branch → Cloudflare Pages automatically builds and deploys
 - Pull requests → Automatic preview deployments
-
-**Manual Deployment:**
-
-```bash
-pnpm deploy
-```
 
 ### Setup Guide
 

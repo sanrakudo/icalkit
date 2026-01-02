@@ -1,6 +1,6 @@
 # Deployment Guide
 
-This guide covers deploying iCalKit to Cloudflare Pages.
+This guide covers deploying iCalKit to Cloudflare Pages via automatic git integration.
 
 ## Prerequisites
 
@@ -8,7 +8,7 @@ This guide covers deploying iCalKit to Cloudflare Pages.
 - GitHub repository connected to Cloudflare
 - Custom domain (optional)
 
-## Method 1: Cloudflare Dashboard (Recommended)
+## Setup
 
 ### Initial Setup
 
@@ -71,39 +71,6 @@ This guide covers deploying iCalKit to Cloudflare Pages.
    # Should return: HTTP/2 301, location: https://icalkit.app/
    ```
 
-## Method 2: Wrangler CLI (Manual Deployments)
-
-Wrangler is included in the project's devDependencies.
-
-### First Time Setup
-
-```bash
-# Login to Cloudflare
-pnpm --filter icalkit-web exec wrangler login
-```
-
-### Deploy Commands
-
-```bash
-# Deploy to production
-pnpm deploy
-
-# Deploy preview
-pnpm deploy:preview
-```
-
-### Configuration
-
-The `wrangler.jsonc` file configures deployment:
-
-```jsonc
-{
-  "name": "icalkit",
-  "compatibility_date": "2026-01-02",
-  "pages_build_output_dir": "web/dist",
-}
-```
-
 ## Troubleshooting
 
 ### Build Fails
@@ -115,19 +82,6 @@ The `wrangler.jsonc` file configures deployment:
 **Issue**: pnpm not found
 
 - **Solution**: Cloudflare Pages auto-detects pnpm from `pnpm-lock.yaml`
-
-### Authentication Error (Wrangler CLI)
-
-**Issue**: `Authentication error [code: 10000]`
-
-- **Solution**: API token needs **Cloudflare Pages: Edit** permission
-- Create new token at: https://dash.cloudflare.com/profile/api-tokens
-
-### Project Not Found (Wrangler CLI)
-
-**Issue**: `Project not found [code: 8000007]`
-
-- **Solution**: Create Pages project through Dashboard first, then use Wrangler CLI for subsequent deployments
 
 ## Monitoring
 
@@ -154,4 +108,3 @@ To rollback to a previous deployment:
 - [Cloudflare Pages Documentation](https://developers.cloudflare.com/pages/)
 - [Custom Domains Guide](https://developers.cloudflare.com/pages/configuration/custom-domains/)
 - [Bulk Redirects Documentation](https://developers.cloudflare.com/pages/configuration/custom-domains/#disable-access-to-pagesdev-subdomain)
-- [Wrangler CLI Documentation](https://developers.cloudflare.com/workers/wrangler/)
