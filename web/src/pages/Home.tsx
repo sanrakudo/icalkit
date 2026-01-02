@@ -21,55 +21,29 @@ export default function Home() {
           </p>
           <div className="flex gap-4 justify-center mt-6">
             <a
-              href="https://github.com/sanrakudo/icalkit"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
-            >
-              ⭐ GitHub
-            </a>
-            <a
               href="#tools"
               className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
             >
-              ツールを使う →
+              使ってみる →
+            </a>
+            <a
+              href="#features"
+              className="px-6 py-2 border-2 border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors"
+            >
+              特徴を見る
             </a>
           </div>
         </div>
       </header>
 
-      {/* Features */}
-      <section className="container mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-16">
-          <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-            <div className="text-4xl mb-4">🔒</div>
-            <h3 className="font-bold text-lg mb-2">完全プライバシー保護</h3>
-            <p className="text-gray-600 text-sm">
-              すべての処理はブラウザ内で完結。サーバーにデータは送信されません
-            </p>
-          </div>
-          <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-            <div className="text-4xl mb-4">⚡</div>
-            <h3 className="font-bold text-lg mb-2">高速処理</h3>
-            <p className="text-gray-600 text-sm">
-              数千件のイベントも瞬時に処理。待ち時間なしでスムーズに
-            </p>
-          </div>
-          <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-            <div className="text-4xl mb-4">🎯</div>
-            <h3 className="font-bold text-lg mb-2">シンプルUI</h3>
-            <p className="text-gray-600 text-sm">
-              直感的で使いやすいインターフェース。誰でも簡単に操作できます
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* Tools Grid */}
       <section id="tools" className="container mx-auto px-4 py-12">
-        <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
-          利用可能なツール
+        <h2 className="text-4xl font-bold text-center mb-4 text-gray-800">
+          できること
         </h2>
+        <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+          iCalendar形式（.ics）のファイルを、4つのツールで手軽に操作
+        </p>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Splitter */}
@@ -170,12 +144,42 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Features */}
+      <section id="features" className="container mx-auto px-4 py-12">
+        <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
+          特徴
+        </h2>
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="bg-white rounded-xl p-6 shadow-lg text-center">
+            <div className="text-4xl mb-4">🔒</div>
+            <h3 className="font-bold text-lg mb-2">完全プライバシー保護</h3>
+            <p className="text-gray-600 text-sm">
+              すべての処理はブラウザ内で完結。サーバーにデータは送信されません
+            </p>
+          </div>
+          <div className="bg-white rounded-xl p-6 shadow-lg text-center">
+            <div className="text-4xl mb-4">⚡</div>
+            <h3 className="font-bold text-lg mb-2">高速処理</h3>
+            <p className="text-gray-600 text-sm">
+              数千件のイベントも瞬時に処理。待ち時間なしでスムーズに
+            </p>
+          </div>
+          <div className="bg-white rounded-xl p-6 shadow-lg text-center">
+            <div className="text-4xl mb-4">🎯</div>
+            <h3 className="font-bold text-lg mb-2">シンプルUI</h3>
+            <p className="text-gray-600 text-sm">
+              直感的で使いやすいインターフェース。誰でも簡単に操作できます
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* CLI Section */}
       <section className="container mx-auto px-4 py-16">
         <div className="max-w-3xl mx-auto bg-gradient-to-r from-gray-800 to-gray-900 rounded-2xl p-8 text-white">
-          <h2 className="text-3xl font-bold mb-4">💻 CLI版も近日公開</h2>
+          <h2 className="text-3xl font-bold mb-4">💻 CLI版も利用可能</h2>
           <p className="text-gray-300 mb-6">
-            自動化やスクリプト処理に最適なコマンドラインツールを準備中です
+            自動化やスクリプト処理に最適なコマンドラインツール
           </p>
           <pre className="bg-black bg-opacity-50 rounded-lg p-4 text-sm overflow-x-auto">
             <code className="text-green-400">
@@ -183,13 +187,13 @@ export default function Home() {
 npm install -g icalkit
 
 # ファイルを分割
-ical-split calendar.ics --chunk-size 500
+icalkit split calendar.ics --chunk-size 1000
 
 # ファイルを表示
-ical-view calendar.ics --format table
+icalkit view calendar.ics
 
 # ファイルをマージ
-ical-merge *.ics -o merged.ics`}
+icalkit merge file1.ics file2.ics -o merged.ics`}
             </code>
           </pre>
         </div>
@@ -213,7 +217,7 @@ ical-merge *.ics -o merged.ics`}
             rel="noopener noreferrer"
             className="text-indigo-600 hover:text-indigo-700 font-semibold"
           >
-            Issue報告
+            バグ報告
           </a>
           <span className="mx-3">•</span>
           <a
@@ -222,12 +226,9 @@ ical-merge *.ics -o merged.ics`}
             rel="noopener noreferrer"
             className="text-indigo-600 hover:text-indigo-700 font-semibold"
           >
-            MIT License
+            ライセンス表記
           </a>
         </div>
-        <p className="text-sm">
-          Made with ❤️ for the calendar enthusiast community
-        </p>
       </footer>
     </div>
   );
