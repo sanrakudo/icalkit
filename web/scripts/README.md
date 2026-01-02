@@ -2,7 +2,7 @@
 
 This directory contains utility scripts for the iCalKit web application.
 
-## generate-images.mjs
+## generate-images.js
 
 Generates PNG images from SVG logo files in various sizes for different use cases.
 

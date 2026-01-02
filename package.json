@@ -2,6 +2,7 @@
   "name": "icalkit-monorepo",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "iCalKit - Calendar file management tools (monorepo)",
   "scripts": {
     "dev": "pnpm --filter icalkit-web dev",
