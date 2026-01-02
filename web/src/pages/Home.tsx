@@ -220,12 +220,12 @@ icalkit merge file1.ics file2.ics -o merged.ics`}
             バグ報告
           </a>
           <span className="mx-3">•</span>
-          <a
-            href="/LICENSES.txt"
+          <Link
+            to="/licenses"
             className="text-indigo-600 hover:text-indigo-700 font-semibold"
           >
             ライセンス情報
-          </a>
+          </Link>
         </div>
       </footer>
     </div>

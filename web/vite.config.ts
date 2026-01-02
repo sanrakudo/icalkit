@@ -9,7 +9,22 @@ export default defineConfig({
     react(),
     license({
       thirdParty: {
-        output: path.join(__dirname, 'dist', 'LICENSES.txt'),
+        output: {
+          file: path.join(__dirname, 'public', 'licenses.json'),
+          template(dependencies) {
+            return JSON.stringify(
+              dependencies.map((dep) => ({
+                name: dep.name || 'Unknown',
+                version: dep.version || 'Unknown',
+                license: dep.license || 'Unknown',
+                repository: dep.repository || '',
+                licenseText: dep.licenseText || '',
+              })),
+              null,
+              2,
+            );
+          },
+        },
         includePrivate: false,
       },
     }),
