@@ -5,6 +5,7 @@
     "lib": ["ES2022"],
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    "allowImportingTsExtensions": false,
     "allowJs": true,
     "checkJs": false,
     "outDir": "./dist",

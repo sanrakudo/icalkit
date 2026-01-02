@@ -3,7 +3,9 @@
  * @module icalkit
  */
 
-export const version = '0.0.1';
+import packageJson from '../package.json' with { type: 'json' };
+
+export const version = packageJson.version;
 
 /**
  * Split a large iCalendar file into smaller chunks
