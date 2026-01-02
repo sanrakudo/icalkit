@@ -1,0 +1,63 @@
+# WARNING: When you rename a workflow filename, remember to update the Trusted Publishing settings as well.
+# https://www.npmjs.com/package/icalkit/access
+# ref. https://docs.npmjs.com/trusted-publishers
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Release
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4
+        id: release
+
+  # https://github.com/googleapis/release-please-action/#automating-publication-to-npm
+  publish:
+    name: Publish to npm
+    permissions:
+      contents: read
+      id-token: write # Required for OIDC authn and npm provenance
+    runs-on: ubuntu-latest
+    needs: release
+    if: ${{ needs.release.outputs.releases_created == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+          registry-url: "https://registry.npmjs.org"
+        # To avoid setup-node cache failure.
+        # ref. https://github.com/actions/setup-node/issues/1137
+      - name: create pnpm cache directory
+        shell: bash
+        run: mkdir -vp $(pnpm store path --silent)
+
+      # Ensure npm 11.5.1 or later is installed
+      # ref. https://docs.npmjs.com/trusted-publishers#github-actions-configuration
+      - run: npm install -g npm@latest
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build:lib
+      - run: pnpm -r publish --access public
+        env:
+          NPM_CONFIG_PROVENANCE: true
+          # Fallback to NPM_TOKEN if OIDC is not configured yet
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || '' }}
+
+  actions-timeline:
+    needs: [publish]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Kesin11/actions-timeline@da70beff098ff89b15d279e8bf2f60519a8dadd7 # v2

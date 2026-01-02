@@ -164,6 +164,37 @@ For detailed deployment instructions including:
 
 See: **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**
 
+## 📦 Publishing
+
+This project uses [release-please](https://github.com/googleapis/release-please) for automated releases.
+
+### How it works
+
+1. Commit your changes using [Conventional Commits](https://www.conventionalcommits.org/):
+   ```bash
+   git commit -m "feat: add new feature"
+   git commit -m "fix: resolve bug"
+   ```
+
+2. Push to `main` branch
+3. release-please will automatically:
+   - Create a release PR with changelog for `icalkit` package
+   - Bump version number
+   - Create GitHub releases
+   - Publish to npm
+
+**Note:** The web application (`icalkit-web`) is continuously deployed to Cloudflare Pages and doesn't use version management.
+
+### Commit Types
+
+- `feat:` - New feature (minor version bump)
+- `fix:` - Bug fix (patch version bump)
+- `feat!:` or `fix!:` - Breaking change (major version bump)
+- `docs:` - Documentation changes
+- `chore:` - Maintenance tasks
+- `refactor:` - Code refactoring
+- `perf:` - Performance improvements
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
