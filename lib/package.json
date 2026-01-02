@@ -1,6 +1,6 @@
 {
   "name": "icalkit",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "iCalendar file management - CLI tools and Node.js API",
   "type": "module",
   "main": "./dist/index.js",
@@ -19,8 +19,9 @@
     "bin"
   ],
   "scripts": {
-    "build": "echo 'CLI build - coming soon'",
-    "dev": "echo 'CLI dev - coming soon'",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
     "lint": "echo 'CLI lint - coming soon'"
   },
   "keywords": [
@@ -39,6 +40,9 @@
   "engines": {
     "node": ">=24.0.0"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/node": "^24.10.4",
+    "tsup": "^8.5.1",
+    "typescript": "~5.9.3"
+  }
 }
