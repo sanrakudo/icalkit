@@ -41,10 +41,9 @@ This guide covers deploying iCalKit to Cloudflare Pages.
    - Enter your domain (e.g., `icalkit.app`)
    - Cloudflare will configure DNS automatically if domain is on Cloudflare
 
-2. **Redirect *.pages.dev to Custom Domain**
+2. **Redirect \*.pages.dev to Custom Domain**
 
    To ensure only your custom domain is used:
-
    - Go to **Account Home → Bulk Redirects**
    - Click "Create Bulk Redirects list"
    - Create a list (e.g., `icalkit_pages_redirect`)
@@ -101,7 +100,7 @@ The `wrangler.jsonc` file configures deployment:
 {
   "name": "icalkit",
   "compatibility_date": "2026-01-02",
-  "pages_build_output_dir": "web/dist"
+  "pages_build_output_dir": "web/dist",
 }
 ```
 
@@ -110,20 +109,24 @@ The `wrangler.jsonc` file configures deployment:
 ### Build Fails
 
 **Issue**: Node.js version mismatch
+
 - **Solution**: Ensure `NODE_VERSION` environment variable is set to `24`
 
 **Issue**: pnpm not found
+
 - **Solution**: Cloudflare Pages auto-detects pnpm from `pnpm-lock.yaml`
 
 ### Authentication Error (Wrangler CLI)
 
 **Issue**: `Authentication error [code: 10000]`
+
 - **Solution**: API token needs **Cloudflare Pages: Edit** permission
 - Create new token at: https://dash.cloudflare.com/profile/api-tokens
 
 ### Project Not Found (Wrangler CLI)
 
 **Issue**: `Project not found [code: 8000007]`
+
 - **Solution**: Create Pages project through Dashboard first, then use Wrangler CLI for subsequent deployments
 
 ## Monitoring

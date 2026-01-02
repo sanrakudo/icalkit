@@ -17,7 +17,7 @@ export async function split(
   options?: {
     chunkSize?: number;
     outputDir?: string;
-  }
+  },
 ): Promise<{ files: string[]; totalEvents: number }> {
   // TODO: Implement split functionality
   throw new Error('Not implemented yet');
@@ -30,7 +30,7 @@ export async function split(
  */
 export async function merge(
   inputPaths: string[],
-  outputPath: string
+  outputPath: string,
 ): Promise<{ totalEvents: number }> {
   // TODO: Implement merge functionality
   throw new Error('Not implemented yet');
@@ -58,7 +58,7 @@ export async function clean(
   inputPath: string,
   options?: {
     outputPath?: string;
-  }
+  },
 ): Promise<{ removed: number; kept: number }> {
   // TODO: Implement clean functionality
   throw new Error('Not implemented yet');

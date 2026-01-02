@@ -21,8 +21,8 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "typecheck": "tsc --noEmit",
-    "lint": "echo 'CLI lint - coming soon'"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [
     "icalendar",
@@ -44,7 +44,11 @@
     "url": "https://github.com/sanrakudo/icalkit/issues"
   },
   "homepage": "https://github.com/sanrakudo/icalkit#readme",
-  "author": "tasshi (Masaharu Tashiro) <tasshi.me@gmail.com>",
+  "author": {
+    "name": "tasshi",
+    "email": "tasshi.me@gmail.com",
+    "url": "https://github.com/tasshi-me"
+  },
   "license": "MIT",
   "engines": {
     "node": ">=24.0.0"

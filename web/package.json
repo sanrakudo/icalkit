@@ -2,13 +2,14 @@
   "name": "icalkit-web",
   "private": true,
   "version": "1.0.0",
+  "description": "iCalKit web application - Browser-based iCalendar file management tools",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
+    "dev": "vite",
+    "generate-images": "node scripts/generate-images.js",
     "lint": "eslint ",
-    "preview": "vite preview",
-    "generate-images": "node scripts/generate-images.js"
+    "preview": "vite preview"
   },
   "dependencies": {
     "file-saver": "^2.0.5",

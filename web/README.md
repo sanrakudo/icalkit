@@ -75,6 +75,7 @@ web/
 The app is deployed to Cloudflare Pages. Build artifacts are generated in `dist/`.
 
 **Build Settings:**
+
 - Build command: `pnpm build:web`
 - Build output directory: `web/dist`
 - Node version: 24

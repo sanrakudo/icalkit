@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /**
  * iCalKit CLI
  * Command-line interface for iCalendar file management
@@ -9,7 +7,6 @@ import { parseArgs } from 'node:util';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import * as lib from './index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -65,146 +62,159 @@ function showVersion(): void {
   console.log(`iCalKit v${VERSION}`);
 }
 
+async function handleSplitCommand(args: string[]): Promise<void> {
+  const { values, positionals } = parseArgs({
+    args,
+    options: {
+      'chunk-size': { type: 'string' },
+      'output-dir': { type: 'string' },
+    },
+    allowPositionals: true,
+  });
+
+  const inputFile = positionals[0];
+  if (!inputFile) {
+    throw new Error('Missing input file');
+  }
+
+  const options = {
+    chunkSize: values['chunk-size']
+      ? parseInt(values['chunk-size'], 10)
+      : undefined,
+    outputDir: values['output-dir'],
+  };
+
+  // TODO: Call lib.split()
+  console.log('Split command not yet implemented');
+  console.log('Input:', inputFile);
+  console.log('Options:', options);
+}
+
+async function handleMergeCommand(args: string[]): Promise<void> {
+  const { values, positionals } = parseArgs({
+    args,
+    options: {
+      output: { type: 'string', short: 'o' },
+    },
+    allowPositionals: true,
+  });
+
+  const inputFiles = positionals;
+  if (inputFiles.length === 0) {
+    throw new Error('Missing input files');
+  }
+
+  const outputPath = values.output;
+  if (!outputPath) {
+    throw new Error('Missing output file (use -o or --output)');
+  }
+
+  // TODO: Call lib.merge()
+  console.log('Merge command not yet implemented');
+  console.log('Inputs:', inputFiles);
+  console.log('Output:', outputPath);
+}
+
+async function handleViewCommand(args: string[]): Promise<void> {
+  const { positionals } = parseArgs({
+    args,
+    options: {},
+    allowPositionals: true,
+  });
+
+  const inputFile = positionals[0];
+  if (!inputFile) {
+    throw new Error('Missing input file');
+  }
+
+  // TODO: Call lib.view()
+  console.log('View command not yet implemented');
+  console.log('Input:', inputFile);
+}
+
+async function handleCleanCommand(args: string[]): Promise<void> {
+  const { values, positionals } = parseArgs({
+    args,
+    options: {
+      output: { type: 'string', short: 'o' },
+    },
+    allowPositionals: true,
+  });
+
+  const inputFile = positionals[0];
+  if (!inputFile) {
+    throw new Error('Missing input file');
+  }
+
+  const options = {
+    outputPath: values.output,
+  };
+
+  // TODO: Call lib.clean()
+  console.log('Clean command not yet implemented');
+  console.log('Input:', inputFile);
+  console.log('Options:', options);
+}
+
 export async function main(): Promise<void> {
   const args = process.argv.slice(2);
 
   // Check for global flags first
   if (args.length === 0 || args.includes('-h') || args.includes('--help')) {
     showHelp();
-    process.exit(0);
+    return;
   }
 
   if (args.includes('-v') || args.includes('--version')) {
     showVersion();
-    process.exit(0);
+    return;
   }
 
   const command = args[0];
 
   if (!(command in COMMANDS)) {
-    console.error(`Error: Unknown command '${command}'`);
-    console.error(`Run 'icalkit --help' for usage information.`);
-    process.exit(1);
+    throw new Error(
+      `Unknown command '${command}'\nRun 'icalkit --help' for usage information.`,
+    );
   }
 
   try {
+    const commandArgs = args.slice(1);
     switch (command) {
-      case 'split': {
-        const { values, positionals } = parseArgs({
-          args: args.slice(1),
-          options: {
-            'chunk-size': { type: 'string' },
-            'output-dir': { type: 'string' },
-          },
-          allowPositionals: true,
-        });
-
-        const inputFile = positionals[0];
-        if (!inputFile) {
-          console.error('Error: Missing input file');
-          process.exit(1);
-        }
-
-        const options = {
-          chunkSize: values['chunk-size'] ? parseInt(values['chunk-size'], 10) : undefined,
-          outputDir: values['output-dir'],
-        };
-
-        // TODO: Call lib.split()
-        console.log('Split command not yet implemented');
-        console.log('Input:', inputFile);
-        console.log('Options:', options);
+      case 'split':
+        await handleSplitCommand(commandArgs);
         break;
-      }
-
-      case 'merge': {
-        const { values, positionals } = parseArgs({
-          args: args.slice(1),
-          options: {
-            output: { type: 'string', short: 'o' },
-          },
-          allowPositionals: true,
-        });
-
-        const inputFiles = positionals;
-        if (inputFiles.length === 0) {
-          console.error('Error: Missing input files');
-          process.exit(1);
-        }
-
-        const outputPath = values.output;
-        if (!outputPath) {
-          console.error('Error: Missing output file (use -o or --output)');
-          process.exit(1);
-        }
-
-        // TODO: Call lib.merge()
-        console.log('Merge command not yet implemented');
-        console.log('Inputs:', inputFiles);
-        console.log('Output:', outputPath);
+      case 'merge':
+        await handleMergeCommand(commandArgs);
         break;
-      }
-
-      case 'view': {
-        const { positionals } = parseArgs({
-          args: args.slice(1),
-          options: {},
-          allowPositionals: true,
-        });
-
-        const inputFile = positionals[0];
-        if (!inputFile) {
-          console.error('Error: Missing input file');
-          process.exit(1);
-        }
-
-        // TODO: Call lib.view()
-        console.log('View command not yet implemented');
-        console.log('Input:', inputFile);
+      case 'view':
+        await handleViewCommand(commandArgs);
         break;
-      }
-
-      case 'clean': {
-        const { values, positionals } = parseArgs({
-          args: args.slice(1),
-          options: {
-            output: { type: 'string', short: 'o' },
-          },
-          allowPositionals: true,
-        });
-
-        const inputFile = positionals[0];
-        if (!inputFile) {
-          console.error('Error: Missing input file');
-          process.exit(1);
-        }
-
-        const options = {
-          outputPath: values.output,
-        };
-
-        // TODO: Call lib.clean()
-        console.log('Clean command not yet implemented');
-        console.log('Input:', inputFile);
-        console.log('Options:', options);
+      case 'clean':
+        await handleCleanCommand(commandArgs);
         break;
-      }
     }
   } catch (error) {
-    if (error instanceof Error && 'code' in error && error.code === 'ERR_PARSE_ARGS_UNKNOWN_OPTION') {
-      console.error(`Error: ${error.message}`);
-      console.error(`Run 'icalkit ${command} --help' for usage information.`);
-      process.exit(1);
+    if (
+      error instanceof Error &&
+      'code' in error &&
+      error.code === 'ERR_PARSE_ARGS_UNKNOWN_OPTION'
+    ) {
+      throw new Error(
+        `${error.message}\nRun 'icalkit ${command} --help' for usage information.`,
+      );
     }
-    console.error('Error:', error instanceof Error ? error.message : String(error));
-    process.exit(1);
+    throw error;
   }
 }
 
 // Run CLI if this is the main module
 if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch((error) => {
-    console.error('Fatal error:', error);
+    console.error(
+      'Error:',
+      error instanceof Error ? error.message : String(error),
+    );
     process.exit(1);
   });
 }

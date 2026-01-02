@@ -5,18 +5,28 @@
   "type": "module",
   "description": "iCalKit - Calendar file management tools (monorepo)",
   "scripts": {
-    "dev": "pnpm --filter icalkit-web dev",
     "build": "pnpm --filter icalkit-web build && pnpm --filter icalkit build",
-    "build:web": "pnpm --filter icalkit-web build",
     "build:lib": "pnpm --filter icalkit build",
-    "lint": "pnpm -r lint",
-    "generate-images": "pnpm --filter icalkit-web generate-images",
+    "build:web": "pnpm --filter icalkit-web build",
+    "check": "pnpm format:check && pnpm lint",
     "deploy": "pnpm build:web && pnpm --filter icalkit-web exec wrangler pages deploy ../web/dist",
-    "deploy:preview": "pnpm build:web && pnpm --filter icalkit-web exec wrangler pages deploy ../web/dist --branch=preview"
+    "deploy:preview": "pnpm build:web && pnpm --filter icalkit-web exec wrangler pages deploy ../web/dist --branch=preview",
+    "dev": "pnpm --filter icalkit-web dev",
+    "fix": "pnpm format && eslint . --fix && pnpm -r exec eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "generate-images": "pnpm --filter icalkit-web generate-images",
+    "lint": "eslint . && pnpm -r lint"
   },
   "packageManager": "pnpm@10.18.3",
   "engines": {
     "node": ">=24.0.0",
     "pnpm": ">=9.0.0"
+  },
+  "devDependencies": {
+    "@cybozu/eslint-config": "^25.0.0",
+    "eslint": "^9.39.2",
+    "eslint-plugin-package-json": "^0.87.1",
+    "prettier": "^3.7.4"
   }
 }

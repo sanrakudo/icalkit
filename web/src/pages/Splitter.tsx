@@ -41,7 +41,9 @@ export default function Splitter() {
             const summary = event.summary || '(タイトルなし)';
             const description = event.description || '';
             const location = event.location || '';
-            const startDate = event.startDate ? event.startDate.toJSDate() : null;
+            const startDate = event.startDate
+              ? event.startDate.toJSDate()
+              : null;
             const endDate = event.endDate ? event.endDate.toJSDate() : null;
 
             return {
@@ -63,7 +65,9 @@ export default function Splitter() {
 
           setEvents(eventList);
         } catch (error) {
-          alert('iCalファイルの読み込みに失敗しました: ' + (error as Error).message);
+          alert(
+            'iCalファイルの読み込みに失敗しました: ' + (error as Error).message,
+          );
           setFile(null);
           setTotalEvents(0);
           setEvents([]);
@@ -92,7 +96,7 @@ export default function Splitter() {
       const droppedFile = e.dataTransfer.files[0];
       handleFileChange(droppedFile);
     },
-    [handleFileChange]
+    [handleFileChange],
   );
 
   const splitAndDownload = async () => {
@@ -162,7 +166,7 @@ export default function Splitter() {
       (event) =>
         event.summary.toLowerCase().includes(query) ||
         event.description.toLowerCase().includes(query) ||
-        event.location.toLowerCase().includes(query)
+        event.location.toLowerCase().includes(query),
     );
   }, [events, searchQuery]);
 
@@ -181,7 +185,11 @@ export default function Splitter() {
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <img src="/icalkit-icon.svg" alt="iCalKit Logo" className="w-12 h-12" />
+            <img
+              src="/icalkit-icon.svg"
+              alt="iCalKit Logo"
+              className="w-12 h-12"
+            />
             <h1 className="text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
               iCalKit Splitter
             </h1>
@@ -242,7 +250,10 @@ export default function Splitter() {
           <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
             <div className="mb-6">
               <div className="flex items-center justify-between mb-4">
-                <label className="text-lg font-semibold text-gray-700">
+                <label
+                  htmlFor="chunk-size-slider"
+                  className="text-lg font-semibold text-gray-700"
+                >
                   1ファイルあたりのイベント数
                 </label>
                 <span className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
@@ -250,6 +261,7 @@ export default function Splitter() {
                 </span>
               </div>
               <input
+                id="chunk-size-slider"
                 type="range"
                 min="50"
                 max="1000"
@@ -291,7 +303,10 @@ export default function Splitter() {
             >
               {isProcessing ? (
                 <span className="flex items-center justify-center">
-                  <svg className="animate-spin h-6 w-6 mr-3" viewBox="0 0 24 24">
+                  <svg
+                    className="animate-spin h-6 w-6 mr-3"
+                    viewBox="0 0 24 24"
+                  >
                     <circle
                       className="opacity-25"
                       cx="12"
@@ -329,7 +344,9 @@ export default function Splitter() {
               onClick={() => setShowEventList(!showEventList)}
               className="w-full flex items-center justify-between text-left mb-4"
             >
-              <h2 className="text-2xl font-bold text-gray-800">📅 イベント一覧</h2>
+              <h2 className="text-2xl font-bold text-gray-800">
+                📅 イベント一覧
+              </h2>
               <svg
                 className={`w-6 h-6 text-gray-600 transition-transform ${
                   showEventList ? 'rotate-180' : ''
@@ -375,7 +392,8 @@ export default function Splitter() {
                         <p className="text-sm text-gray-600 mb-1">
                           🕐 {formatDate(event.startDate)}
                           {event.endDate &&
-                            event.endDate.getTime() !== event.startDate.getTime() &&
+                            event.endDate.getTime() !==
+                              event.startDate.getTime() &&
                             ` → ${formatDate(event.endDate)}`}
                         </p>
                       )}

@@ -78,12 +78,14 @@ icalkit/
 ## Design Guidelines
 
 ### UI/UX
+
 - Use Tailwind CSS 4 for styling
 - Follow the gradient color scheme (indigo/purple)
 - Maintain responsive design (mobile-friendly)
 - Keep interfaces simple and intuitive
 
 ### Code Style
+
 - **TypeScript**: Use proper typing, avoid `any`
 - **React**: Use functional components and hooks
 - **Naming**: Clear, descriptive variable and function names
@@ -92,11 +94,13 @@ icalkit/
 - **Error Handling**: Handle errors gracefully with user-friendly messages
 
 ### Privacy & Security
+
 - All processing must happen client-side
 - No data should be sent to external servers
 - Clearly communicate privacy benefits to users
 
 ### Monorepo Guidelines
+
 - Use workspace references for shared dependencies
 - Keep packages loosely coupled
 - Use `pnpm --filter <package>` for package-specific commands
@@ -104,6 +108,7 @@ icalkit/
 ## Testing
 
 Before submitting:
+
 1. **Build Check**: Ensure `pnpm build` completes without errors
 2. **Type Check**: Run TypeScript type checking
 3. **Lint**: Run `pnpm lint` and fix any issues

@@ -1,0 +1,14 @@
+# Dependencies
+node_modules
+pnpm-lock.yaml
+
+# Build outputs
+dist
+build
+*.tsbuildinfo
+
+# Cloudflare
+.wrangler
+
+# Generated files
+CHANGELOG.md

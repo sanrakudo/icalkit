@@ -15,9 +15,11 @@ npm run generate-images
 ### What it generates
 
 From `public/icalkit-logo.svg`:
+
 - `icalkit-logo.png` (1200x630) - Open Graph / Twitter Card image
 
 From `public/icalkit-icon.svg`:
+
 - `icalkit-icon-512.png` (512x512) - PWA icon
 - `icalkit-icon-192.png` (192x192) - PWA icon
 - `apple-touch-icon.png` (180x180) - iOS home screen icon

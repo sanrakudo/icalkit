@@ -7,13 +7,14 @@
 ### Web Tools (Browser-based, No Server Required)
 
 - **📂 Splitter** - Split large iCal files into smaller chunks for easy import into Google Calendar and other services
-- **👁️ Viewer** - View and browse iCal file contents in a beautiful, searchable interface *(Coming Soon)*
-- **🔀 Merger** - Combine multiple iCal files into one *(Coming Soon)*
-- **🧹 Cleaner** - Remove duplicate events and clean up your calendar *(Coming Soon)*
+- **👁️ Viewer** - View and browse iCal file contents in a beautiful, searchable interface _(Coming Soon)_
+- **🔀 Merger** - Combine multiple iCal files into one _(Coming Soon)_
+- **🧹 Cleaner** - Remove duplicate events and clean up your calendar _(Coming Soon)_
 
-### CLI Tools *(Coming Soon)*
+### CLI Tools _(Coming Soon)_
 
 Command-line utilities for automation and scripting:
+
 ```bash
 # Split an iCal file
 ical-split calendar.ics --chunk-size 500
@@ -32,6 +33,7 @@ ical-merge file1.ics file2.ics -o merged.ics
 Visit the live demo: **[https://icalkit.app](https://icalkit.app)**
 
 Or run locally:
+
 ```bash
 # Clone the repository
 git clone https://github.com/sanrakudo/icalkit.git
@@ -49,7 +51,7 @@ pnpm build
 pnpm --filter icalkit-web preview
 ```
 
-### CLI Tools *(Coming Soon)*
+### CLI Tools _(Coming Soon)_
 
 ```bash
 npm install -g icalkit
@@ -62,6 +64,7 @@ npm install -g icalkit
 The splitter helps you break down large iCal files that exceed import limits for services like Google Calendar (typically 1MB or ~1000 events).
 
 **Features:**
+
 - Adjustable chunk size (default: 500 events)
 - Preserves all calendar properties and metadata
 - Generates numbered files for easy sequential import
@@ -69,18 +72,19 @@ The splitter helps you break down large iCal files that exceed import limits for
 - Search and preview events before splitting
 
 **Use Cases:**
+
 - Importing large historical calendars into Google Calendar
 - Breaking down conference schedules
 - Splitting multi-year calendars for better organization
 
-### Viewer *(Coming Soon)*
+### Viewer _(Coming Soon)_
 
 Browse and search through your iCal files with ease.
 
 ## 🛠️ Technology Stack
 
 - **Web**: React 19 + TypeScript, Vite, React Router, Tailwind CSS 4, ical.js, JSZip
-- **CLI**: Node.js *(Coming Soon)*
+- **CLI**: Node.js _(Coming Soon)_
 - **Package Manager**: pnpm (monorepo with workspaces)
 - **No backend required** - All processing happens client-side/locally
 
@@ -129,6 +133,7 @@ mise install
 ```
 
 **Manual installation:**
+
 ```bash
 # Install Node.js 24
 # https://nodejs.org/
@@ -146,10 +151,12 @@ The web application is deployed to [Cloudflare Pages](https://pages.cloudflare.c
 ### Quick Start
 
 **Automatic Deployment (Recommended):**
+
 - Push to `main` branch → Cloudflare Pages automatically builds and deploys
 - Pull requests → Automatic preview deployments
 
 **Manual Deployment:**
+
 ```bash
 pnpm deploy
 ```
@@ -157,6 +164,7 @@ pnpm deploy
 ### Setup Guide
 
 For detailed deployment instructions including:
+
 - Initial Cloudflare Pages setup
 - Custom domain configuration with Bulk Redirects
 - Wrangler CLI usage
@@ -171,6 +179,7 @@ This project uses [release-please](https://github.com/googleapis/release-please)
 ### How it works
 
 1. Commit your changes using [Conventional Commits](https://www.conventionalcommits.org/):
+
    ```bash
    git commit -m "feat: add new feature"
    git commit -m "fix: resolve bug"

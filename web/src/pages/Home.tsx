@@ -7,7 +7,11 @@ export default function Home() {
       <header className="container mx-auto px-4 py-8">
         <div className="text-center">
           <div className="flex items-center justify-center gap-4 mb-4">
-            <img src="/icalkit-icon.svg" alt="iCalKit Logo" className="w-16 h-16" />
+            <img
+              src="/icalkit-icon.svg"
+              alt="iCalKit Logo"
+              className="w-16 h-16"
+            />
             <h1 className="text-6xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
               iCalKit
             </h1>
@@ -221,7 +225,9 @@ ical-merge *.ics -o merged.ics`}
             MIT License
           </a>
         </div>
-        <p className="text-sm">Made with ❤️ for the calendar enthusiast community</p>
+        <p className="text-sm">
+          Made with ❤️ for the calendar enthusiast community
+        </p>
       </footer>
     </div>
   );
