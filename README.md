@@ -35,18 +35,18 @@ Or run locally:
 ```bash
 # Clone the repository
 git clone https://github.com/sanrakudo/icalkit.git
-cd icalkit/web
+cd icalkit
 
-# Install dependencies
-npm install
+# Install dependencies (requires pnpm)
+pnpm install
 
 # Start development server
-npm run dev
+pnpm dev
 # Then visit http://localhost:5173
 
 # Or build for production
-npm run build
-npm run preview
+pnpm build
+pnpm --filter icalkit-web preview
 ```
 
 ### CLI Tools *(Coming Soon)*
@@ -81,7 +81,43 @@ Browse and search through your iCal files with ease.
 
 - **Web**: React 19 + TypeScript, Vite, React Router, Tailwind CSS 4, ical.js, JSZip
 - **CLI**: Node.js *(Coming Soon)*
+- **Package Manager**: pnpm (monorepo with workspaces)
 - **No backend required** - All processing happens client-side/locally
+
+## 📦 Monorepo Structure
+
+This project uses pnpm workspaces for monorepo management:
+
+```
+icalkit/
+├── web/           # icalkit-web - React web application
+├── cli/           # icalkit-cli - Command-line tools (coming soon)
+├── package.json   # Root package with workspace scripts
+└── pnpm-workspace.yaml
+```
+
+### Available Scripts
+
+From the root directory:
+
+```bash
+pnpm dev              # Start web dev server
+pnpm build            # Build all packages
+pnpm build:web        # Build web only
+pnpm build:cli        # Build CLI only
+pnpm lint             # Lint all packages
+pnpm generate-images  # Generate PNG images from logos
+```
+
+### Requirements
+
+- Node.js >= 18.0.0
+- pnpm >= 9.0.0
+
+Install pnpm:
+```bash
+npm install -g pnpm
+```
 
 ## 🤝 Contributing
 

@@ -1,0 +1,19 @@
+{
+  "name": "icalkit-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "iCalKit - Calendar file management tools (monorepo)",
+  "scripts": {
+    "dev": "pnpm --filter icalkit-web dev",
+    "build": "pnpm --filter icalkit-web build && pnpm --filter icalkit-cli build",
+    "build:web": "pnpm --filter icalkit-web build",
+    "build:cli": "pnpm --filter icalkit-cli build",
+    "lint": "pnpm -r lint",
+    "generate-images": "pnpm --filter icalkit-web generate-images"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@10.20.0"
+}

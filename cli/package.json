@@ -1,0 +1,27 @@
+{
+  "name": "icalkit-cli",
+  "version": "1.0.0",
+  "description": "Command-line tools for managing iCalendar files",
+  "type": "module",
+  "bin": {
+    "icalkit": "./bin/icalkit.js"
+  },
+  "scripts": {
+    "build": "echo 'CLI build - coming soon'",
+    "dev": "echo 'CLI dev - coming soon'",
+    "lint": "echo 'CLI lint - coming soon'"
+  },
+  "keywords": [
+    "icalendar",
+    "ics",
+    "calendar",
+    "cli"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

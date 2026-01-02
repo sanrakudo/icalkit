@@ -4,21 +4,28 @@ Web-based tools for managing iCalendar files, built with React + TypeScript + Vi
 
 ## 🚀 Development
 
+From the root directory:
+
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
-# Start development server
-npm run dev
+# Start development server (web only)
+pnpm dev
+# or from root: pnpm --filter icalkit-web dev
 
 # Build for production
-npm run build
+pnpm build:web
+# or: pnpm --filter icalkit-web build
 
 # Preview production build
-npm run preview
+pnpm --filter icalkit-web preview
 
 # Lint code
-npm run lint
+pnpm --filter icalkit-web lint
+
+# Generate images from SVG logos
+pnpm generate-images
 ```
 
 ## 🏗️ Tech Stack
