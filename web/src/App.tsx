@@ -7,6 +7,7 @@ import {
 import { useEffect } from 'react';
 import Home from './pages/Home';
 import Splitter from './pages/Splitter';
+import Merger from './pages/Merger';
 import Licenses from './pages/Licenses';
 
 // Google Analytics page view tracking for SPA navigation
@@ -34,6 +35,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/splitter" element={<Splitter />} />
+        <Route path="/merger" element={<Merger />} />
         <Route path="/licenses" element={<Licenses />} />
       </Routes>
     </Router>

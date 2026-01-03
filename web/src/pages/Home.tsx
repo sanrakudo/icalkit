@@ -99,26 +99,34 @@ export default function Home() {
           </div>
 
           {/* Merger */}
-          <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-gray-200 opacity-75">
+          <Link
+            to="/merger"
+            className="group bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all p-8 border-2 border-transparent hover:border-indigo-200"
+          >
             <div className="flex items-start gap-4 mb-4">
               <div className="text-5xl">🔀</div>
               <div>
-                <h3 className="text-2xl font-bold text-gray-800">Merger</h3>
-                <span className="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full mt-2">
-                  近日公開
+                <h3 className="text-2xl font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">
+                  Merger
+                </h3>
+                <span className="inline-block px-3 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full mt-2">
+                  利用可能
                 </span>
               </div>
             </div>
             <p className="text-gray-600 mb-4">
               複数のiCalファイルを1つに統合。異なるソースからのカレンダーをまとめて管理できます。
             </p>
-            <ul className="text-sm text-gray-500 space-y-2">
+            <ul className="text-sm text-gray-500 space-y-2 mb-4">
               <li>✓ 複数ファイルの一括マージ</li>
               <li>✓ 重複イベントの自動検出</li>
               <li>✓ カレンダー名の保持・変更</li>
               <li>✓ マージプレビュー</li>
             </ul>
-          </div>
+            <div className="text-indigo-600 font-semibold group-hover:translate-x-2 transition-transform inline-block">
+              今すぐ使う →
+            </div>
+          </Link>
 
           {/* Cleaner */}
           <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-gray-200 opacity-75">

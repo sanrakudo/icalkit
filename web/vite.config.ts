@@ -10,11 +10,12 @@ export default defineConfig({
     react(),
     sitemap({
       hostname: 'https://icalkit.app',
-      dynamicRoutes: ['/splitter', '/licenses'],
+      dynamicRoutes: ['/splitter', '/merger', '/licenses'],
       changefreq: 'monthly',
       priority: {
         '/': 1.0,
         '/splitter': 0.8,
+        '/merger': 0.8,
         '/licenses': 0.5,
       },
       readable: true,
