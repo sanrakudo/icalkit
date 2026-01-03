@@ -1,4 +1,9 @@
 /**
+ * Sort order for events before splitting
+ */
+export type SortOrder = 'dtstart' | 'original';
+
+/**
  * Options for splitting calendar files
  */
 export interface SplitOptions {
@@ -8,6 +13,8 @@ export interface SplitOptions {
   outputDir?: string;
   /** File name pattern with {n} and {total} placeholders */
   fileNamePattern?: string;
+  /** Sort order for events before splitting (default: 'dtstart') */
+  sortBy?: SortOrder;
 }
 
 /**

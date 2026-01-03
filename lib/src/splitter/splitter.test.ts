@@ -151,3 +151,100 @@ END:VCALENDAR`;
     expect(result.metadata.splitAt).toBeInstanceOf(Date);
   });
 });
+
+describe('sortBy option', () => {
+  // Events in non-chronological order
+  const unsortedCalendar = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Test//Test//EN
+BEGIN:VEVENT
+UID:middle@example.com
+DTSTART:20240115T100000Z
+SUMMARY:Middle Event
+END:VEVENT
+BEGIN:VEVENT
+UID:last@example.com
+DTSTART:20240201T100000Z
+SUMMARY:Last Event
+END:VEVENT
+BEGIN:VEVENT
+UID:first@example.com
+DTSTART:20240101T100000Z
+SUMMARY:First Event
+END:VEVENT
+END:VCALENDAR`;
+
+  it('should sort by dtstart by default', async () => {
+    const result = await split(unsortedCalendar, { chunkSize: 1 });
+
+    expect(result.chunks).toHaveLength(3);
+    expect(result.chunks[0].content).toContain('First Event');
+    expect(result.chunks[1].content).toContain('Middle Event');
+    expect(result.chunks[2].content).toContain('Last Event');
+  });
+
+  it('should preserve original order with sortBy=original', async () => {
+    const result = await split(unsortedCalendar, {
+      chunkSize: 1,
+      sortBy: 'original',
+    });
+
+    expect(result.chunks).toHaveLength(3);
+    expect(result.chunks[0].content).toContain('Middle Event');
+    expect(result.chunks[1].content).toContain('Last Event');
+    expect(result.chunks[2].content).toContain('First Event');
+  });
+
+  it('should handle events without dtstart', async () => {
+    const calendarWithMissingDtstart = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Test//Test//EN
+BEGIN:VEVENT
+UID:nodtstart@example.com
+SUMMARY:No DTSTART Event
+END:VEVENT
+BEGIN:VEVENT
+UID:hasdtstart@example.com
+DTSTART:20240101T100000Z
+SUMMARY:Has DTSTART Event
+END:VEVENT
+END:VCALENDAR`;
+
+    const result = await split(calendarWithMissingDtstart, {
+      chunkSize: 1,
+      sortBy: 'dtstart',
+    });
+
+    expect(result.chunks).toHaveLength(2);
+    // Event with DTSTART should come first, event without should come last
+    expect(result.chunks[0].content).toContain('Has DTSTART Event');
+    expect(result.chunks[1].content).toContain('No DTSTART Event');
+  });
+
+  it('should handle all-day events', async () => {
+    const allDayCalendar = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Test//Test//EN
+BEGIN:VEVENT
+UID:allday@example.com
+DTSTART;VALUE=DATE:20240101
+SUMMARY:All Day Event
+END:VEVENT
+BEGIN:VEVENT
+UID:timed@example.com
+DTSTART:20240115T100000Z
+SUMMARY:Timed Event
+END:VEVENT
+END:VCALENDAR`;
+
+    const result = await split(allDayCalendar, {
+      chunkSize: 1,
+      sortBy: 'dtstart',
+    });
+
+    expect(result.chunks).toHaveLength(2);
+    // All-day event on Jan 1 should come before timed event on Jan 15
+    expect(result.chunks[0].content).toContain('All Day Event');
+    expect(result.chunks[1].content).toContain('Timed Event');
+  });
+});

@@ -22,7 +22,12 @@ export type { ICalEvent, ParsedCalendar } from './common/types.js';
 export { split } from './splitter/index.js';
 
 // Splitter types
-export type { SplitOptions, SplitResult, ICSChunk } from './splitter/index.js';
+export type {
+  SplitOptions,
+  SplitResult,
+  ICSChunk,
+  SortOrder,
+} from './splitter/index.js';
 
 /**
  * Merge multiple iCalendar files into one
