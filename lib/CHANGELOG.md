@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/sanrakudo/icalkit/compare/icalkit-v0.2.0...icalkit-v0.3.0) (2026-01-03)
+
+
+### Features
+
+* **lib:** add sortBy option to sort events before splitting ([#30](https://github.com/sanrakudo/icalkit/issues/30)) ([0236e6a](https://github.com/sanrakudo/icalkit/commit/0236e6a76aa4c323fa1e612d6ef04090b4ce9845))
+
 ## [0.2.0](https://github.com/sanrakudo/icalkit/compare/icalkit-v0.1.0...icalkit-v0.2.0) (2026-01-02)
 
 
