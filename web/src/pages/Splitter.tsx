@@ -9,12 +9,14 @@ import {
   filterEvents,
   split,
   type ICalEvent,
+  type SortOrder,
 } from 'icalkit';
 
 export default function Splitter() {
   const [file, setFile] = useState<File | null>(null);
   const [totalEvents, setTotalEvents] = useState(0);
   const [chunkSize, setChunkSize] = useState(1000);
+  const [sortBy, setSortBy] = useState<SortOrder>('dtstart');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [events, setEvents] = useState<ICalEvent[]>([]);
@@ -102,7 +104,7 @@ export default function Splitter() {
 
     try {
       const content = await file.text();
-      const result = await split(content, { chunkSize });
+      const result = await split(content, { chunkSize, sortBy });
 
       // Create ZIP file
       const zip = new JSZip();
@@ -274,6 +276,26 @@ export default function Splitter() {
                 <span>500</span>
                 <span>1000</span>
               </div>
+            </div>
+
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <label
+                  htmlFor="sort-order"
+                  className="text-lg font-semibold text-gray-700"
+                >
+                  並び順
+                </label>
+              </div>
+              <select
+                id="sort-order"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortOrder)}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none transition-colors bg-white text-gray-700"
+              >
+                <option value="dtstart">日付順（古い順）</option>
+                <option value="original">元の順序</option>
+              </select>
             </div>
 
             <div className="grid grid-cols-2 gap-4 mb-6">
