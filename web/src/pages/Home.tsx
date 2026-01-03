@@ -152,7 +152,7 @@ export default function Home() {
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           <div className="bg-white rounded-xl p-6 shadow-lg text-center">
             <div className="text-4xl mb-4">🔒</div>
-            <h3 className="font-bold text-lg mb-2">完全プライバシー保護</h3>
+            <h3 className="font-bold text-lg mb-2">プライバシー保護</h3>
             <p className="text-gray-600 text-sm">
               カレンダーファイルはブラウザ内で処理。サーバーにアップロードされません
             </p>
@@ -161,7 +161,7 @@ export default function Home() {
             <div className="text-4xl mb-4">⚡</div>
             <h3 className="font-bold text-lg mb-2">高速処理</h3>
             <p className="text-gray-600 text-sm">
-              数千件のイベントも瞬時に処理。待ち時間なしでスムーズに
+              数千件のイベントもすばやく処理。待ち時間なしでスムーズに
             </p>
           </div>
           <div className="bg-white rounded-xl p-6 shadow-lg text-center">
