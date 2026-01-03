@@ -4,4 +4,9 @@
 
 export { split } from './splitter.js';
 
-export type { SplitOptions, SplitResult, ICSChunk } from './types.js';
+export type {
+  SplitOptions,
+  SplitResult,
+  ICSChunk,
+  SortOrder,
+} from './types.js';

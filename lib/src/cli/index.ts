@@ -40,6 +40,7 @@ Commands:
   split <file>              Split large iCal file into chunks
     --chunk-size <n>        Events per chunk (default: 500)
     --output-dir <dir>      Output directory (default: current)
+    -s, --sort <order>      Sort events: dtstart (default), original
 
   merge <files...>          Merge multiple iCal files
     -o, --output <file>     Output file path
@@ -55,6 +56,7 @@ Options:
 
 Examples:
   icalkit split calendar.ics --chunk-size 500
+  icalkit split calendar.ics --sort dtstart
   icalkit merge file1.ics file2.ics -o merged.ics
   icalkit view calendar.ics
   icalkit clean calendar.ics -o cleaned.ics

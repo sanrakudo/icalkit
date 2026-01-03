@@ -1,6 +1,7 @@
 import { parseArgs } from 'node:util';
 import { readFile } from 'node:fs/promises';
 import { split } from '../../splitter/index.js';
+import type { SortOrder } from '../../splitter/types.js';
 import { writeChunksToDirectory } from '../node.js';
 
 export async function handleSplitCommand(args: string[]): Promise<void> {
@@ -9,6 +10,7 @@ export async function handleSplitCommand(args: string[]): Promise<void> {
     options: {
       'chunk-size': { type: 'string' },
       'output-dir': { type: 'string' },
+      sort: { type: 'string', short: 's' },
     },
     allowPositionals: true,
   });
@@ -18,11 +20,20 @@ export async function handleSplitCommand(args: string[]): Promise<void> {
     throw new Error('Missing input file');
   }
 
+  // Validate sort option
+  const sortOption = values.sort ?? 'dtstart';
+  if (!['dtstart', 'original'].includes(sortOption)) {
+    throw new Error(
+      `Invalid sort option: "${sortOption}". Valid options: dtstart, original`,
+    );
+  }
+
   const options = {
     chunkSize: values['chunk-size']
       ? parseInt(values['chunk-size'], 10)
       : undefined,
     outputDir: values['output-dir'] || '.',
+    sortBy: sortOption as SortOrder,
   };
 
   // Read input file
