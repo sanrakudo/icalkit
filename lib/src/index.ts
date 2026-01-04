@@ -29,18 +29,17 @@ export type {
   SortOrder,
 } from './splitter/index.js';
 
-/**
- * Merge multiple iCalendar files into one
- * @param inputPaths - Array of paths to .ics files
- * @param outputPath - Path to the output .ics file
- */
-export async function merge(
-  inputPaths: string[],
-  outputPath: string,
-): Promise<{ totalEvents: number }> {
-  // TODO: Implement merge functionality
-  throw new Error('Not implemented yet');
-}
+// Merger functionality
+export { merge } from './merger/index.js';
+
+// Merger types
+export type {
+  MergeOptions,
+  MergeResult,
+  MergeInput,
+  DuplicateHandling,
+  DuplicateInfo,
+} from './merger/index.js';
 
 /**
  * View iCalendar file information

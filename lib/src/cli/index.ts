@@ -44,6 +44,8 @@ Commands:
 
   merge <files...>          Merge multiple iCal files
     -o, --output <file>     Output file path
+    -d, --duplicates <mode> Duplicate handling: keep-all, remove, warn (default)
+    -n, --name <name>       Custom calendar name
 
   view <file>               View iCal file information
 
@@ -58,6 +60,7 @@ Examples:
   icalkit split calendar.ics --chunk-size 500
   icalkit split calendar.ics --sort dtstart
   icalkit merge file1.ics file2.ics -o merged.ics
+  icalkit merge *.ics -o all.ics --duplicates remove
   icalkit view calendar.ics
   icalkit clean calendar.ics -o cleaned.ics
 
