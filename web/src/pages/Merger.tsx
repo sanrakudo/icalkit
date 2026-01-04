@@ -1,24 +1,52 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { saveAs } from 'file-saver';
 import {
   merge,
   parseICalContent,
+  extractEvents,
+  sortEventsByDate,
+  filterEvents,
   type DuplicateHandling,
   type MergeResult,
+  type ICalEvent,
 } from 'icalkit';
 import PageHeader from '../components/PageHeader';
 import FileDropZone from '../components/FileDropZone';
+
+// Extended event type with source file info
+interface EventWithSource extends ICalEvent {
+  sourceIndex: number;
+  sourceName: string;
+  isDuplicate: boolean;
+  isOriginal: boolean; // true if this is the first occurrence of a duplicate
+  duplicateOf?: number; // sourceIndex of the original (for duplicates)
+}
+
+// Colors for source file badges
+const SOURCE_COLORS = [
+  { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-300' },
+  { bg: 'bg-green-100', text: 'text-green-800', border: 'border-green-300' },
+  { bg: 'bg-purple-100', text: 'text-purple-800', border: 'border-purple-300' },
+  { bg: 'bg-orange-100', text: 'text-orange-800', border: 'border-orange-300' },
+  { bg: 'bg-pink-100', text: 'text-pink-800', border: 'border-pink-300' },
+  { bg: 'bg-teal-100', text: 'text-teal-800', border: 'border-teal-300' },
+  { bg: 'bg-yellow-100', text: 'text-yellow-800', border: 'border-yellow-300' },
+  { bg: 'bg-red-100', text: 'text-red-800', border: 'border-red-300' },
+];
 
 export default function Merger() {
   const [files, setFiles] = useState<File[]>([]);
   const [fileContents, setFileContents] = useState<
     Array<{ name: string; content: string; eventCount: number }>
   >([]);
+  const [allEvents, setAllEvents] = useState<EventWithSource[]>([]);
   const [duplicateHandling, setDuplicateHandling] =
     useState<DuplicateHandling>('warn');
   const [calendarName, setCalendarName] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [mergeResult, setMergeResult] = useState<MergeResult | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const settingsSectionRef = useRef<HTMLDivElement>(null);
   const prevFileCountRef = useRef<number>(0);
@@ -47,43 +75,101 @@ export default function Merger() {
   const handleFilesChange = useCallback((selectedFiles: File[]) => {
     setFiles(selectedFiles);
     setMergeResult(null);
+    setShowPreview(false);
+    setSearchQuery('');
 
     // Read all files
     const readPromises = selectedFiles.map(
-      (file) =>
-        new Promise<{ name: string; content: string; eventCount: number }>(
-          (resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              try {
-                const content = e.target?.result as string;
-                const parsed = parseICalContent(content);
-                resolve({
-                  name: file.name,
-                  content,
-                  eventCount: parsed.totalEvents,
-                });
-              } catch (error) {
-                reject(new Error(`${file.name}: ${(error as Error).message}`));
-              }
-            };
-            reader.onerror = () =>
-              reject(
-                new Error(`${file.name}: ファイルの読み込みに失敗しました`),
-              );
-            reader.readAsText(file);
-          },
-        ),
+      (file, index) =>
+        new Promise<{
+          name: string;
+          content: string;
+          eventCount: number;
+          events: ICalEvent[];
+          sourceIndex: number;
+        }>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            try {
+              const content = e.target?.result as string;
+              const parsed = parseICalContent(content);
+              const events = extractEvents(parsed.vevents);
+              resolve({
+                name: file.name,
+                content,
+                eventCount: parsed.totalEvents,
+                events,
+                sourceIndex: index,
+              });
+            } catch (error) {
+              reject(new Error(`${file.name}: ${(error as Error).message}`));
+            }
+          };
+          reader.onerror = () =>
+            reject(new Error(`${file.name}: ファイルの読み込みに失敗しました`));
+          reader.readAsText(file);
+        }),
     );
 
     Promise.all(readPromises)
       .then((results) => {
-        setFileContents(results);
+        setFileContents(
+          results.map((r) => ({
+            name: r.name,
+            content: r.content,
+            eventCount: r.eventCount,
+          })),
+        );
+
+        // Combine all events with source info and detect duplicates
+        // First pass: collect all events and track UIDs
+        const uidMap = new Map<
+          string,
+          { sourceIndex: number; eventIndex: number }
+        >();
+        const eventsWithSource: EventWithSource[] = [];
+
+        results.forEach((result) => {
+          result.events.forEach((event) => {
+            const uid = event.uid;
+            let isDuplicate = false;
+            let duplicateOf: number | undefined;
+
+            if (uid) {
+              const existing = uidMap.get(uid);
+              if (existing) {
+                isDuplicate = true;
+                duplicateOf = existing.sourceIndex;
+                // Mark the original event as having duplicates
+                eventsWithSource[existing.eventIndex].isOriginal = true;
+              } else {
+                uidMap.set(uid, {
+                  sourceIndex: result.sourceIndex,
+                  eventIndex: eventsWithSource.length,
+                });
+              }
+            }
+
+            eventsWithSource.push({
+              ...event,
+              sourceIndex: result.sourceIndex,
+              sourceName: result.name,
+              isDuplicate,
+              isOriginal: false, // Will be set to true later if duplicates are found
+              duplicateOf,
+            });
+          });
+        });
+
+        // Sort by date
+        const sorted = sortEventsByDate(eventsWithSource) as EventWithSource[];
+        setAllEvents(sorted);
       })
       .catch((error) => {
         alert('iCalファイルの読み込みに失敗しました: ' + error.message);
         setFiles([]);
         setFileContents([]);
+        setAllEvents([]);
       });
   }, []);
 
@@ -142,6 +228,43 @@ export default function Merger() {
   };
 
   const totalEvents = fileContents.reduce((sum, f) => sum + f.eventCount, 0);
+
+  // Filtered events for preview
+  const filteredEvents = useMemo(() => {
+    return filterEvents(allEvents, searchQuery) as EventWithSource[];
+  }, [allEvents, searchQuery]);
+
+  // Count duplicates (events involved in duplication - both originals and duplicates)
+  const duplicateCount = useMemo(() => {
+    return allEvents.filter((e) => e.isDuplicate || e.isOriginal).length;
+  }, [allEvents]);
+
+  // Check if event is involved in duplication
+  const hasDuplication = (event: EventWithSource) =>
+    event.isDuplicate || event.isOriginal;
+
+  // Format date helper
+  const formatDate = (date: Date | null) => {
+    if (!date) return '';
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}/${month}/${day} ${hours}:${minutes}`;
+  };
+
+  // Get color for source file
+  const getSourceColor = (index: number) => {
+    return SOURCE_COLORS[index % SOURCE_COLORS.length];
+  };
+
+  // Get short filename for badge
+  const getShortFilename = (name: string) => {
+    const maxLength = 15;
+    if (name.length <= maxLength) return name;
+    return name.slice(0, maxLength - 3) + '...';
+  };
 
   return (
     <div className="bg-gradient-to-br from-indigo-50 via-white to-purple-50 min-h-screen">
@@ -262,17 +385,33 @@ export default function Merger() {
               className="bg-white rounded-2xl shadow-xl p-8 mb-6"
             >
               {/* Stats */}
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 text-center">
-                  <p className="text-gray-600 text-sm mb-2">ファイル数</p>
-                  <p className="text-4xl font-bold text-indigo-600">
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 text-center">
+                  <p className="text-gray-600 text-xs mb-1">ファイル数</p>
+                  <p className="text-3xl font-bold text-indigo-600">
                     {fileContents.length}
                   </p>
                 </div>
-                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 text-center">
-                  <p className="text-gray-600 text-sm mb-2">総イベント数</p>
-                  <p className="text-4xl font-bold text-purple-600">
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 text-center">
+                  <p className="text-gray-600 text-xs mb-1">総イベント数</p>
+                  <p className="text-3xl font-bold text-purple-600">
                     {totalEvents.toLocaleString()}
+                  </p>
+                </div>
+                <div
+                  className={`rounded-xl p-4 text-center ${
+                    duplicateCount > 0
+                      ? 'bg-gradient-to-br from-amber-50 to-orange-50'
+                      : 'bg-gradient-to-br from-green-50 to-emerald-50'
+                  }`}
+                >
+                  <p className="text-gray-600 text-xs mb-1">重複イベント</p>
+                  <p
+                    className={`text-3xl font-bold ${
+                      duplicateCount > 0 ? 'text-amber-600' : 'text-green-600'
+                    }`}
+                  >
+                    {duplicateCount}
                   </p>
                 </div>
               </div>
@@ -293,9 +432,8 @@ export default function Merger() {
                   }
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none transition-colors bg-white"
                 >
-                  <option value="warn">警告を表示して全て保持</option>
+                  <option value="warn">全て保持</option>
                   <option value="remove">重複を削除（最初のものを保持）</option>
-                  <option value="keep-all">警告なしで全て保持</option>
                 </select>
                 <p className="text-sm text-gray-500 mt-2">
                   重複はUID（イベントの一意識別子）で判定されます
@@ -383,6 +521,154 @@ export default function Merger() {
                   </ul>
                 </div>
               )}
+
+              {/* Event Preview Section */}
+              <div className="mt-8 pt-8 border-t border-gray-200">
+                <button
+                  onClick={() => setShowPreview(!showPreview)}
+                  className="w-full flex items-center justify-between text-left mb-4"
+                >
+                  <h2 className="text-2xl font-bold text-gray-800">
+                    📅 イベントプレビュー
+                  </h2>
+                  <svg
+                    className={`w-6 h-6 text-gray-600 transition-transform ${
+                      showPreview ? 'rotate-180' : ''
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+
+                {showPreview && (
+                  <div className="space-y-4">
+                    {/* Legend */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {fileContents.map((file, index) => {
+                        const color = getSourceColor(index);
+                        return (
+                          <span
+                            key={index}
+                            className={`px-2 py-1 text-xs font-medium rounded ${color.bg} ${color.text}`}
+                          >
+                            {getShortFilename(file.name)}
+                          </span>
+                        );
+                      })}
+                      {duplicateCount > 0 && (
+                        <span className="px-2 py-1 text-xs font-medium rounded bg-red-100 text-red-800 border border-red-300">
+                          ⚠ 重複
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Search */}
+                    <div className="mb-4">
+                      <input
+                        type="text"
+                        placeholder="🔍 イベントを検索..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none transition-colors"
+                      />
+                      <p className="text-sm text-gray-500 mt-2">
+                        {filteredEvents.length} / {allEvents.length} イベント
+                        {duplicateCount > 0 &&
+                          ` (重複関連: ${filteredEvents.filter((e) => hasDuplication(e)).length}件)`}
+                      </p>
+                    </div>
+
+                    {/* Event List */}
+                    <div className="max-h-96 overflow-y-auto space-y-3">
+                      {filteredEvents.map((event, index) => {
+                        const color = getSourceColor(event.sourceIndex);
+                        return (
+                          <div
+                            key={`${event.sourceIndex}-${event.id}-${index}`}
+                            className={`border rounded-lg p-4 transition-all ${
+                              hasDuplication(event)
+                                ? 'border-amber-300 bg-amber-50'
+                                : 'border-gray-200 hover:border-indigo-300 hover:shadow-md'
+                            }`}
+                          >
+                            <div className="flex items-start justify-between gap-2 mb-2">
+                              <h3 className="font-semibold text-gray-800 flex-1">
+                                {event.summary}
+                              </h3>
+                              <div className="flex items-center gap-1 flex-shrink-0">
+                                {hasDuplication(event) &&
+                                  duplicateHandling === 'remove' &&
+                                  event.isOriginal && (
+                                    <span className="px-2 py-0.5 text-xs font-medium rounded bg-green-100 text-green-800">
+                                      保持
+                                    </span>
+                                  )}
+                                {hasDuplication(event) &&
+                                  duplicateHandling === 'remove' &&
+                                  !event.isOriginal && (
+                                    <span className="px-2 py-0.5 text-xs font-medium rounded bg-red-100 text-red-800">
+                                      削除
+                                    </span>
+                                  )}
+                                {hasDuplication(event) && (
+                                  <span
+                                    className="px-2 py-0.5 text-xs font-medium rounded bg-amber-100 text-amber-800"
+                                    title={
+                                      event.isDuplicate
+                                        ? `${fileContents[event.duplicateOf ?? 0]?.name ?? ''} と重複`
+                                        : '重複あり'
+                                    }
+                                  >
+                                    ⚠ 重複
+                                  </span>
+                                )}
+                                <span
+                                  className={`px-2 py-0.5 text-xs font-medium rounded ${color.bg} ${color.text}`}
+                                  title={event.sourceName}
+                                >
+                                  {getShortFilename(event.sourceName)}
+                                </span>
+                              </div>
+                            </div>
+                            {event.startDate && (
+                              <p className="text-sm text-gray-600 mb-1">
+                                🕐 {formatDate(event.startDate)}
+                                {event.endDate &&
+                                  event.endDate.getTime() !==
+                                    event.startDate.getTime() &&
+                                  ` → ${formatDate(event.endDate)}`}
+                              </p>
+                            )}
+                            {event.location && (
+                              <p className="text-sm text-gray-600 mb-1">
+                                📍 {event.location}
+                              </p>
+                            )}
+                            {event.description && (
+                              <p className="text-sm text-gray-500 mt-2 line-clamp-2">
+                                {event.description}
+                              </p>
+                            )}
+                          </div>
+                        );
+                      })}
+                      {filteredEvents.length === 0 && (
+                        <p className="text-center text-gray-500 py-8">
+                          イベントが見つかりません
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </>
         )}

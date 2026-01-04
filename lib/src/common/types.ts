@@ -5,6 +5,7 @@ import type ICAL from 'ical.js';
  */
 export interface ICalEvent {
   id: number;
+  uid: string;
   summary: string;
   description: string;
   location: string;

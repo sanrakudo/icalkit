@@ -9,6 +9,7 @@ import type { ICalEvent } from './types.js';
 export function extractEvents(vevents: ICAL.Component[]): ICalEvent[] {
   return vevents.map((vevent, index) => {
     const event = new ICAL.Event(vevent);
+    const uid = event.uid || '';
     const summary = event.summary || '(タイトルなし)';
     const description = event.description || '';
     const location = event.location || '';
@@ -18,6 +19,7 @@ export function extractEvents(vevents: ICAL.Component[]): ICalEvent[] {
 
     return {
       id: index,
+      uid,
       summary,
       description,
       location,
