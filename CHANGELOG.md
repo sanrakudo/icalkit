@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/sanrakudo/icalkit/compare/icalkit-v0.4.0...icalkit-v0.4.1) (2026-01-04)
+
+
+### Code Refactoring
+
+* convert from monorepo to single package structure ([32d7f77](https://github.com/sanrakudo/icalkit/commit/32d7f775cdb757b69e05483fba2a66867018c871))
+
 ## [0.4.0](https://github.com/sanrakudo/icalkit/compare/icalkit-v0.3.0...icalkit-v0.4.0) (2026-01-04)
 
 
