@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/sanrakudo/icalkit/compare/icalkit-v0.3.0...icalkit-v0.4.0) (2026-01-04)
+
+
+### Features
+
+* **lib:** add merge functionality to combine multiple iCal files ([#29](https://github.com/sanrakudo/icalkit/issues/29)) ([cd962e5](https://github.com/sanrakudo/icalkit/commit/cd962e54dd998255663486a38d7ac03696cce558))
+
 ## [0.3.0](https://github.com/sanrakudo/icalkit/compare/icalkit-v0.2.0...icalkit-v0.3.0) (2026-01-03)
 
 
