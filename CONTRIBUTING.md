@@ -1,13 +1,13 @@
 # Contributing to iCalKit
 
-Thanks for your interest in contributing! 🎉
+Thanks for your interest in contributing!
 
 ## Development Setup
 
 ### Prerequisites
 
-- Node.js >= 24.0.0
-- pnpm >= 9.0.0 (or use [mise](https://mise.jdx.dev/))
+- Node.js >= 24.12.0
+- pnpm >= 10.27.0 (or use [mise](https://mise.jdx.dev/))
 
 ```bash
 # Using mise (recommended)
@@ -28,95 +28,56 @@ cd icalkit
 # Install dependencies
 pnpm install
 
-# Start development server
-pnpm dev
-
-# Open http://localhost:5173
-```
-
-### Building
-
-```bash
-# Build all packages
+# Build
 pnpm build
 
-# Build web only
-pnpm build:web
-
-# Build lib only
-pnpm build:lib
+# Run tests
+pnpm test:run
 ```
 
 ## Project Structure
 
-This is a pnpm monorepo with two main packages:
-
 ```
 icalkit/
-├── web/              # icalkit-web - React web application
-│   ├── src/
-│   │   ├── pages/    # Page components (Home, Splitter, etc.)
-│   │   ├── App.tsx   # Router setup
-│   │   └── main.tsx  # Entry point
-│   ├── public/       # Static assets
-│   └── scripts/      # Build scripts
-├── lib/              # icalkit - CLI tools & Node.js API
-│   ├── src/          # Source code (coming soon)
-│   ├── bin/          # CLI executables (coming soon)
-│   └── README.md
-├── package.json      # Root workspace configuration
-└── pnpm-workspace.yaml
+├── src/
+│   ├── common/       # Shared utilities (parser, events, types)
+│   ├── splitter/     # Split functionality
+│   ├── merger/       # Merge functionality
+│   ├── cli/          # CLI implementation
+│   │   ├── commands/ # Command handlers (split, merge, view, clean)
+│   │   ├── index.ts  # CLI router
+│   │   └── node.ts   # Node.js-specific utilities
+│   └── index.ts      # Public API exports
+├── bin/              # CLI executables
+├── package.json
+└── tsconfig.json
 ```
-
-## Adding a New Web Tool
-
-1. Create a new page component in `web/src/pages/` (e.g., `Viewer.tsx`)
-2. Add route in `web/src/App.tsx`
-3. Add navigation link in `web/src/pages/Home.tsx`
-4. Update the main `README.md` with tool description
 
 ## Design Guidelines
 
-### UI/UX
+### Architecture
 
-- Use Tailwind CSS 4 for styling
-- Follow the gradient color scheme (indigo/purple)
-- Maintain responsive design (mobile-friendly)
-- Keep interfaces simple and intuitive
+- **Isomorphic Core**: `common/`, `splitter/`, `merger/` must work in browser and Node.js
+- **Node.js Isolation**: All Node.js-specific code (fs, process) goes in `cli/`
+- **Public API**: Only export from `src/index.ts` what's needed externally
 
 ### Code Style
 
 - **TypeScript**: Use proper typing, avoid `any`
-- **React**: Use functional components and hooks
 - **Naming**: Clear, descriptive variable and function names
-- **Comments**: Add comments for complex logic
 - **Functions**: Keep functions focused and small
-- **Error Handling**: Handle errors gracefully with user-friendly messages
-
-### Privacy & Security
-
-- All calendar file processing must happen client-side
-- Calendar files should never be uploaded to external servers
-- Clearly communicate privacy benefits to users
-
-### Monorepo Guidelines
-
-- Use workspace references for shared dependencies
-- Keep packages loosely coupled
-- Use `pnpm --filter <package>` for package-specific commands
+- **Error Handling**: Handle errors gracefully
 
 ## Testing
 
 Before submitting:
 
-1. **Build Check**: Ensure `pnpm build` completes without errors
-2. **Type Check**: Run TypeScript type checking
-3. **Lint**: Run `pnpm lint` and fix any issues
-4. **Manual Testing**:
-   - Test with various iCal file sizes
-   - Check browser console for errors
-   - Verify mobile responsiveness
-   - Test in multiple browsers (Chrome, Firefox, Safari)
+```bash
+pnpm build      # Build
+pnpm check      # Format + lint
+pnpm test:run   # Run tests
+pnpm license    # Check licenses
+```
 
 ## Pull Request Process
 
@@ -124,24 +85,22 @@ Before submitting:
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
 4. Test thoroughly
-5. Commit with clear messages (`git commit -m 'Add: Amazing feature'`)
-6. Push to your fork (`git push origin feature/amazing-feature`)
-7. Open a Pull Request with a clear description
+5. Commit with conventional commits
+6. Push and open a Pull Request
 
 ## Commit Message Format
 
-We follow conventional commits:
+We use conventional commits for automated releases:
 
-- `feat:` - New feature
-- `fix:` - Bug fix
-- `docs:` - Documentation changes
-- `style:` - Code style changes (formatting, etc.)
+- `feat:` - New feature (minor bump)
+- `fix:` - Bug fix (patch bump)
+- `feat!:` - Breaking change (major bump)
+- `docs:` - Documentation
+- `chore:` - Maintenance
 - `refactor:` - Code refactoring
-- `test:` - Adding or updating tests
-- `chore:` - Maintenance tasks
-- `build:` - Build system or dependency changes
+- `test:` - Tests
 
-Example: `feat: add event filtering to splitter tool`
+Example: `feat: add event filtering to splitter`
 
 ## Questions?
 
@@ -149,4 +108,4 @@ Feel free to open an issue for discussion before starting work on major features
 
 ---
 
-Thank you for contributing! 💙
+Thank you for contributing!

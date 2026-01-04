@@ -48,8 +48,8 @@ jobs:
       # ref. https://docs.npmjs.com/trusted-publishers#github-actions-configuration
       - run: npm install -g npm@latest
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build:lib
-      - run: pnpm -r publish --access public
+      - run: pnpm build
+      - run: pnpm publish --access public
         env:
           NPM_CONFIG_PROVENANCE: true
 

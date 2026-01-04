@@ -38,7 +38,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - name: Run tests
-        run: pnpm test
+        run: pnpm test:run
 
   license:
     name: License Check
@@ -65,5 +65,5 @@ jobs:
           node-version-file: '.node-version'
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
-      - name: Build all packages
+      - name: Build
         run: pnpm build

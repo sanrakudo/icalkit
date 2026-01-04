@@ -9,7 +9,7 @@
   "changelog-path": "CHANGELOG.md",
   "versioning": "default",
   "packages": {
-    "lib": {
+    ".": {
       "package-name": "icalkit"
     }
   },

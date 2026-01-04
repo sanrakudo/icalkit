@@ -1,36 +1,77 @@
 {
-  "name": "icalkit-monorepo",
-  "version": "1.0.0",
-  "private": true,
+  "name": "icalkit",
+  "version": "0.4.0",
+  "description": "iCalendar file management - CLI tools and Node.js API",
   "type": "module",
-  "description": "iCalKit - Calendar file management tools (monorepo)",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "bin": {
+    "icalkit": "./bin/icalkit.js"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
   "scripts": {
-    "build": "pnpm build:lib && pnpm build:web",
-    "build:lib": "pnpm --filter icalkit build",
-    "build:web": "pnpm --filter icalkit-web build",
+    "build": "tsup",
     "check": "pnpm format:check && pnpm lint",
-    "dev": "pnpm --filter icalkit-web dev",
-    "fix": "pnpm format && eslint . --fix && pnpm -r exec eslint . --fix",
+    "dev": "tsup --watch",
+    "fix": "pnpm format && eslint --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "generate-images": "pnpm --filter icalkit-web generate-images",
     "license": "license-manager analyze -c license-manager.config.cjs",
     "license:extract": "license-manager extract -c license-manager.config.cjs",
-    "lint": "eslint . && pnpm -r lint",
-    "test": "pnpm -r test:run",
-    "test:coverage": "pnpm -r test:coverage",
-    "test:ui": "pnpm -r test:ui"
+    "lint": "eslint",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:run": "vitest run",
+    "test:ui": "vitest --ui",
+    "typecheck": "tsc --noEmit"
   },
+  "keywords": [
+    "icalendar",
+    "ics",
+    "calendar",
+    "google-calendar"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanrakudo/icalkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sanrakudo/icalkit/issues"
+  },
+  "homepage": "https://github.com/sanrakudo/icalkit#readme",
+  "author": {
+    "name": "tasshi",
+    "email": "tasshi.me@gmail.com",
+    "url": "https://github.com/tasshi-me"
+  },
+  "license": "MIT",
   "packageManager": "pnpm@10.27.0",
   "engines": {
     "node": ">=24.12.0",
     "pnpm": ">=10.27.0"
   },
+  "dependencies": {
+    "ical.js": "^2.2.1"
+  },
   "devDependencies": {
     "@cybozu/eslint-config": "^25.0.0",
     "@cybozu/license-manager": "^1.4.1",
+    "@types/node": "^24.10.4",
+    "@vitest/ui": "^4.0.16",
     "eslint": "^9.39.2",
     "eslint-plugin-package-json": "^0.87.1",
-    "prettier": "^3.7.4"
+    "prettier": "^3.7.4",
+    "tsup": "^8.5.1",
+    "typescript": "~5.9.3",
+    "vitest": "^4.0.16"
   }
 }
