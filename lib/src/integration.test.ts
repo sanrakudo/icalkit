@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { split } from './index.js';
+import { split, merge } from './index.js';
 import { parseICalContent } from './common/parser.js';
 import { extractEvents } from './common/events.js';
 
@@ -219,5 +219,180 @@ END:VCALENDAR`;
     expect(parsed.totalEvents).toBe(1);
     // Note: The parsed calendar treats the recurring rule as a single event
     // Expansion of recurrence would be handled by the consuming application
+  });
+});
+
+describe('Merge Integration Tests', () => {
+  const googleCalendar1 = `BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Work Calendar
+X-WR-TIMEZONE:Asia/Tokyo
+BEGIN:VEVENT
+DTSTART:20240101T100000Z
+DTEND:20240101T110000Z
+DTSTAMP:20240101T000000Z
+UID:work1@google.com
+SUMMARY:Work Meeting
+END:VEVENT
+END:VCALENDAR`;
+
+  const googleCalendar2 = `BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Personal Calendar
+X-WR-TIMEZONE:Asia/Tokyo
+BEGIN:VEVENT
+DTSTART:20240102T180000Z
+DTEND:20240102T190000Z
+DTSTAMP:20240101T000000Z
+UID:personal1@google.com
+SUMMARY:Dinner Plans
+END:VEVENT
+END:VCALENDAR`;
+
+  it('should merge Google Calendar exports', async () => {
+    const result = await merge([googleCalendar1, googleCalendar2]);
+
+    expect(result.totalEvents).toBe(2);
+    expect(result.content).toContain('Work Meeting');
+    expect(result.content).toContain('Dinner Plans');
+  });
+
+  it('should handle merging with Japanese characters', async () => {
+    const japaneseCalendar = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Japanese//Test//EN
+BEGIN:VEVENT
+UID:jp1@example.com
+DTSTART:20240101T100000Z
+SUMMARY:新年会
+DESCRIPTION:チームでの新年会
+END:VEVENT
+END:VCALENDAR`;
+
+    const result = await merge([googleCalendar1, japaneseCalendar]);
+
+    expect(result.totalEvents).toBe(2);
+    expect(result.content).toContain('新年会');
+  });
+
+  it('should handle split-then-merge round trip', async () => {
+    // Sample with 3 events
+    const originalCalendar = `BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Work Calendar
+X-WR-TIMEZONE:Asia/Tokyo
+BEGIN:VEVENT
+DTSTART:20240101T100000Z
+DTEND:20240101T110000Z
+DTSTAMP:20240101T000000Z
+UID:event1@google.com
+CREATED:20240101T000000Z
+DESCRIPTION:Team standup meeting
+LAST-MODIFIED:20240101T000000Z
+LOCATION:Conference Room A
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Daily Standup
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20240102T140000Z
+DTEND:20240102T150000Z
+DTSTAMP:20240101T000000Z
+UID:event2@google.com
+CREATED:20240101T000000Z
+DESCRIPTION:Review sprint progress
+LAST-MODIFIED:20240101T000000Z
+LOCATION:Online
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Sprint Review
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20240103T093000Z
+DTEND:20240103T103000Z
+DTSTAMP:20240101T000000Z
+UID:event3@google.com
+CREATED:20240101T000000Z
+DESCRIPTION:Planning next sprint
+LAST-MODIFIED:20240101T000000Z
+LOCATION:Conference Room B
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Sprint Planning
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR`;
+
+    // First split a calendar
+    const splitResult = await split(originalCalendar, { chunkSize: 2 });
+
+    // Then merge the chunks back
+    const mergeResult = await merge(splitResult.chunks.map((c) => c.content));
+
+    expect(mergeResult.totalEvents).toBe(3);
+  });
+
+  it('should preserve all-day events during merge', async () => {
+    const allDayCalendar = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:allday@example.com
+DTSTART;VALUE=DATE:20240101
+DTEND;VALUE=DATE:20240102
+SUMMARY:Holiday
+END:VEVENT
+END:VCALENDAR`;
+
+    const result = await merge([googleCalendar1, allDayCalendar]);
+
+    expect(result.content).toContain('DTSTART;VALUE=DATE:20240101');
+  });
+
+  it('should preserve recurring events during merge', async () => {
+    const recurringCalendar = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring@example.com
+DTSTART:20240101T090000Z
+DTEND:20240101T100000Z
+RRULE:FREQ=WEEKLY;COUNT=10
+SUMMARY:Weekly Meeting
+END:VEVENT
+END:VCALENDAR`;
+
+    const result = await merge([googleCalendar1, recurringCalendar]);
+
+    expect(result.content).toContain('RRULE:FREQ=WEEKLY');
+  });
+
+  it('should handle merging many calendars', async () => {
+    const calendars: string[] = [];
+    for (let i = 0; i < 10; i++) {
+      calendars.push(`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Test//Calendar${i}//EN
+BEGIN:VEVENT
+UID:event${i}@example.com
+DTSTART:20240101T${String(i).padStart(2, '0')}0000Z
+SUMMARY:Event ${i}
+END:VEVENT
+END:VCALENDAR`);
+    }
+
+    const result = await merge(calendars);
+
+    expect(result.totalEvents).toBe(10);
+    expect(result.sourceCount).toBe(10);
   });
 });
