@@ -28,7 +28,7 @@ importers:
         specifier: ^9.39.2
         version: 9.39.2
       eslint-plugin-package-json:
-        specifier: ^0.88.0
+        specifier: ^0.88.1
         version: 0.88.1(@types/estree@1.0.8)(eslint@9.39.2)(jsonc-eslint-parser@2.4.2)
       prettier:
         specifier: ^3.7.4
