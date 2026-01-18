@@ -19,7 +19,7 @@ importers:
         specifier: ^1.4.1
         version: 1.4.1
       '@types/node':
-        specifier: ^24.10.8
+        specifier: ^24.10.9
         version: 24.10.9
       '@vitest/ui':
         specifier: ^4.0.17
