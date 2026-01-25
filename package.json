@@ -66,7 +66,7 @@
     "@cybozu/eslint-config": "^25.0.0",
     "@cybozu/license-manager": "^1.4.1",
     "@types/node": "^24.10.9",
-    "@vitest/ui": "^4.0.17",
+    "@vitest/ui": "^4.0.18",
     "eslint": "^9.39.2",
     "eslint-plugin-package-json": "^0.88.1",
     "prettier": "^3.8.1",
