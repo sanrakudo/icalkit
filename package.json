@@ -54,10 +54,10 @@
     "url": "https://github.com/tasshi-me"
   },
   "license": "MIT",
-  "packageManager": "pnpm@10.29.2",
+  "packageManager": "pnpm@10.29.3",
   "engines": {
     "node": ">=24.13.0",
-    "pnpm": ">=10.29.2"
+    "pnpm": ">=10.29.3"
   },
   "dependencies": {
     "ical.js": "^2.2.1"
