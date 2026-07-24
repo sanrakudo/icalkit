@@ -68,7 +68,7 @@
     "@types/node": "^24.13.3",
     "@vitest/ui": "^4.1.10",
     "eslint": "^9.39.5",
-    "eslint-plugin-package-json": "^0.88.3",
+    "eslint-plugin-package-json": "^1.6.0",
     "prettier": "^3.9.6",
     "tsup": "^8.5.1",
     "typescript": "~5.9.3",
