@@ -63,7 +63,7 @@
     "ical.js": "^2.2.1"
   },
   "devDependencies": {
-    "@cybozu/eslint-config": "^25.0.1",
+    "@cybozu/eslint-config": "^26.0.0",
     "@cybozu/license-manager": "^1.4.1",
     "@types/node": "^24.13.3",
     "@vitest/ui": "^4.1.11",
