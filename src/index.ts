@@ -41,6 +41,18 @@ export type {
   DuplicateInfo,
 } from './merger/index.js';
 
+// Cleaner functionality
+export { clean, cleanCalendar } from './cleaner/index.js';
+
+// Cleaner types
+export type {
+  CleanOptions,
+  CleanResult,
+  CleanInput,
+  RemovedItemInfo,
+  DuplicateDetection,
+} from './cleaner/index.js';
+
 /**
  * View iCalendar file information
  * @param inputPath - Path to the .ics file
@@ -51,20 +63,5 @@ export async function view(inputPath: string): Promise<{
   calendarName: string;
 }> {
   // TODO: Implement view functionality
-  throw new Error('Not implemented yet');
-}
-
-/**
- * Clean duplicate events from iCalendar file
- * @param inputPath - Path to the .ics file
- * @param options - Clean options
- */
-export async function clean(
-  inputPath: string,
-  options?: {
-    outputPath?: string;
-  },
-): Promise<{ removed: number; kept: number }> {
-  // TODO: Implement clean functionality
   throw new Error('Not implemented yet');
 }

@@ -25,7 +25,7 @@ const COMMANDS = {
   split: 'Split large iCal files into smaller chunks',
   merge: 'Merge multiple iCal files into one',
   view: 'View iCal file contents',
-  clean: 'Remove duplicate events',
+  clean: 'Clean calendar data quality issues',
 } as const;
 
 function showHelp(): void {
@@ -49,8 +49,13 @@ Commands:
 
   view <file>               View iCal file information
 
-  clean <file>              Remove duplicate events
-    -o, --output <file>     Output file path (default: overwrites input)
+  clean <file>              Clean calendar data quality issues
+    -o, --output <file>     Output file path (required)
+    -d, --duplicates <mode> Remove duplicates: uid, content
+    --remove-cancelled      Remove cancelled events
+    --remove-tentative      Remove tentative events
+    --remove-empty          Remove empty events (no SUMMARY or DTSTART)
+    --remove-orphan-tz      Remove unused VTIMEZONE components
 
 Options:
   -h, --help               Show this help message
@@ -62,7 +67,8 @@ Examples:
   icalkit merge file1.ics file2.ics -o merged.ics
   icalkit merge *.ics -o all.ics --duplicates remove
   icalkit view calendar.ics
-  icalkit clean calendar.ics -o cleaned.ics
+  icalkit clean calendar.ics -o cleaned.ics --duplicates uid
+  icalkit clean calendar.ics -o cleaned.ics --remove-cancelled --remove-empty
 
 Documentation: https://github.com/sanrakudo/icalkit
 `);
